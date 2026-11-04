@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="ro" class="scroll-smooth">
 <head>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poiana Copilăriei - Camping & Parc de Rulote în Inima Naturii</title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>S.C. Poiana Copilăriei S.R.L. - Camping & Parc Rulote în Sălaj</title>
+    <meta name="description" content="Camping și parc de rulote în Poiana Blenchii, județul Sălaj. Oază de liniște și natură pentru familii, locuri de cort, racorduri electrice, dușuri și loc de joacă. Rezervă la +40 740 286 241.">
+    <meta name="keywords" content="camping salaj, parc rulote poiana blenchii, cazare corturi salaj, poiana copilariei, in inima satului">
+    <!-- Open Graph pentru Facebook / WhatsApp Sharing -->
+    <meta property="og:title" content="Camping & Parc de Rulote Poiana Copilăriei - în Inima Satului">
+    <meta property="og:description" content="Descoperă natura și relaxarea în Poiana Blenchii, județul Sălaj. Rezervă un loc de cort sau parcelă de rulotă!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://poiana-copilariei.netlify.app/">
+    <meta property="og:image" content="logo_oficial.png">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,183 +27,527 @@
                             100: '#dcfce7',
                             200: '#bbf7d0',
                             500: '#22c55e',
+                            600: '#16a34a',
                             700: '#15803d',
                             800: '#166534',
                             900: '#14532d',
-                            950: '#052e16',
+                            950: '#052e16'
+                        },
+                        wood: {
+                            100: '#fef3c7',
+                            500: '#d97706',
+                            600: '#b45309',
+                            800: '#78350f',
+                            900: '#451a03'
+                        },
+                        solar: {
+                            400: '#facc15',
+                            500: '#eab308'
                         }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
                     }
                 }
             }
         }
     </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK pentru e-mailuri personalizate HTML -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("D-IxBcUlQSUrZEtP3");
+        })();
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-bg {
+            background: linear-gradient(rgba(5, 46, 22, 0.70), rgba(5, 46, 22, 0.80)), url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+        }
+    </style>
 </head>
-<body class="bg-stone-50 text-stone-800 font-sans antialiased">
+<body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
 
-    <!-- Header / Navigatie -->
-    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-stone-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="#" class="flex items-center space-x-3">
-                <img src="logo_oficial.png" alt="Poiana Copilăriei Logo" class="h-12 w-auto">
-                <span class="font-bold text-lg text-eco-900 tracking-tight hidden sm:inline">Poiana Copilăriei</span>
-            </a>
-            <nav class="hidden md:flex space-x-8 font-medium text-sm text-stone-600">
-                <a href="#acasa" class="hover:text-eco-700 transition">Acasă</a>
-                <a href="#cazare" class="hover:text-eco-700 transition">Cazare</a>
-                <a href="#galerie" class="hover:text-eco-700 transition">Galerie</a>
-                <a href="#rezervare" class="hover:text-eco-700 transition">Rezervă Now</a>
-            </nav>
-            <a href="#rezervare" class="bg-eco-700 hover:bg-eco-800 text-white font-semibold text-sm px-5 py-2.5 rounded-full transition shadow-sm">
-                Rezervă Loc
-            </a>
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-eco-900 text-eco-100 text-xs py-2 px-4 text-center border-b border-eco-800 flex justify-between items-center max-w-full overflow-hidden">
+        <div class="max-w-7xl mx-auto w-full flex justify-between items-center px-2">
+            <span class="flex items-center gap-2">
+                <i class="fa-solid fa-leaf text-solar-400"></i>
+                <strong class="hidden sm:inline">S.C. POIANA COPILĂRIEI S.R.L.</strong> &bull; CUI 52525739 &bull; Tel: <a href="tel:+40740286241" class="underline">+40 740 286 241</a>
+            </span>
+
+            <span class="text-solar-400 font-semibold flex items-center gap-1">
+                <i class="fa-solid fa-solar-panel"></i> în Inima Satului &bull; Iluminat solar
+            </span>
+        </div>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md text-gray-800 shadow-lg border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                
+                <!-- LOGO OFICIAL + SLOGAN "în Inima Satului" -->
+                <a href="#acasa" class="flex items-center space-x-3 group py-1">
+                    <div class="flex flex-col items-center justify-center group-hover:scale-105 transition-transform">
+                        <img src="logo_oficial.png" alt="S.C. Poiana Copilăriei S.R.L. Logo" class="h-14 w-auto object-contain">
+                        <span class="text-[10px] font-bold tracking-wider text-eco-800 italic uppercase mt-0.5">în Inima Satului</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden lg:flex items-center space-x-6 text-sm font-semibold text-gray-700">
+                    <a href="#acasa" class="hover:text-eco-600 transition-colors">Acasă</a>
+                    <a href="#despre" class="hover:text-eco-600 transition-colors">Concept Eco</a>
+                    <a href="#cazare" class="hover:text-eco-600 transition-colors">Cazare & Tarife</a>
+                    <a href="#facilitati" class="hover:text-eco-600 transition-colors">Facilități & Copii</a>
+                    <a href="#regulament" class="hover:text-eco-600 transition-colors">Regulament & Q&A</a>
+                    <a href="#galerie" class="hover:text-eco-600 transition-colors">Galerie</a>
+                    <a href="#contact" class="hover:text-eco-600 transition-colors">Contact</a>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="hidden sm:flex items-center space-x-4">
+                    <button onclick="openBookingModal()" class="bg-solar-500 hover:bg-solar-400 text-eco-950 font-bold px-5 py-2.5 rounded-xl shadow-md transition-all flex items-center gap-2 hover:shadow-lg hover:-translate-y-0.5">
+                        <i class="fa-regular fa-calendar-check"></i>
+                        <span>Rezervă Acum</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-gray-800 hover:text-eco-600 p-2 focus:outline-none" aria-label="Deschide Meniu">
+                        <i class="fa-solid fa-bars text-2xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-200 px-4 pt-3 pb-6 space-y-3 shadow-xl">
+            <a href="#acasa" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-eco-600 font-medium">Acasă</a>
+            <a href="#despre" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-eco-600 font-medium">Concept Ecologic</a>
+            <a href="#cazare" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-eco-600 font-medium">Cazare & Tarife</a>
+            <a href="#facilitati" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-eco-600 font-medium">Facilități & Copii</a>
+            <a href="#regulament" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-eco-600 font-medium">Regulament & Q&A</a>
+            <a href="#galerie" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-eco-600 font-medium">Galerie</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-eco-600 font-medium">Contact</a>
+            <button onclick="toggleMobileMenu(); openBookingModal();" class="w-full mt-2 bg-solar-500 text-eco-950 font-bold py-3 rounded-xl shadow text-center flex items-center justify-center gap-2">
+                <i class="fa-regular fa-calendar-check"></i>
+                <span>Rezervă Loc</span>
+            </button>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="acasa" class="relative bg-eco-950 text-white py-24 md:py-32 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-                Camping & Parc de Rulote <br>în Inima Naturii
+    <!-- HERO SECTION -->
+    <section id="acasa" class="hero-bg min-h-[85vh] flex items-center justify-center text-white relative px-4 py-16">
+        <div class="max-w-5xl mx-auto text-center space-y-6">
+            <div class="inline-flex items-center gap-2 bg-eco-950/80 backdrop-blur-md border border-eco-600/50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-solar-400">
+                <i class="fa-solid fa-leaf"></i> S.C. POIANA COPILĂRIEI S.R.L. &bull; în Inima Satului &bull; Sălaj
+            </div>
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                Camping & Parc de Rulote în Inima Satului
             </h1>
-            <p class="max-w-2xl mx-auto text-lg md:text-xl text-eco-100 mb-8">
-                Liniște, aer curat și peisaje de poveste în Poiana Blenchii, Sălaj. Locul ideal pentru relaxare cu familia sau cu rulota ta.
+            <p class="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto font-light">
+                O oază destinată familiilor, copiilor și iubitorilor de natură în Poiana Blenchii. Bucură-te de aer curat, liniște și facilități moderne.
             </p>
-            <div class="flex justify-center gap-4">
-                <a href="#rezervare" class="bg-amber-500 hover:bg-amber-600 text-eco-950 font-bold px-8 py-3.5 rounded-full text-base transition shadow-lg">
-                    Rezervă un Loc
-                </a>
-                <a href="#cazare" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3.5 rounded-full text-base backdrop-blur-sm transition">
-                    Vezi Opțiuni
-                </a>
-            </div>
-        </div>
-    </section>
 
-    <!-- Sectiune Cazare / Opțiuni -->
-    <section id="cazare" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-eco-950 mb-3">Opțiuni de Cazare și Camping</h2>
-            <p class="text-stone-600">Alege modul tău preferat de a fi aproape de natură.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Card 1 -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-stone-200">
-                <h3 class="text-xl font-bold text-eco-900 mb-2">Locuri de Rulotă / Autorulotă</h3>
-                <p class="text-sm text-stone-600 mb-4">Parcelă delimitată cu acces la energie electrică, apă curentă și facilități sanitare moderne.</p>
-                <span class="text-lg font-extrabold text-eco-700">De la 80 RON / noapte</span>
-            </div>
-            <!-- Card 2 -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-stone-200">
-                <h3 class="text-xl font-bold text-eco-900 mb-2">Zona de Corturi</h3>
-                <p class="text-sm text-stone-600 mb-4">Spațiu generos pe iarbă moale, locuri amenajate pentru grătar și foc de tabără.</p>
-                <span class="text-lg font-extrabold text-eco-700">De la 40 RON / noapte</span>
-            </div>
-            <!-- Card 3 -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-stone-200">
-                <h3 class="text-xl font-bold text-eco-900 mb-2">Căsuțe / Glamping</h3>
-                <p class="text-sm text-stone-600 mb-4">Confortul unei camere de hotel direct în mijlocul poienii, cu terasă privată.</p>
-                <span class="text-lg font-extrabold text-eco-700">De la 150 RON / noapte</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sectiune Formular de Rezervare -->
-    <section id="rezervare" class="py-16 bg-eco-50 border-t border-b border-eco-100">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-2xl p-8 shadow-md border border-stone-200">
-                <h2 class="text-2xl font-bold text-eco-950 mb-6 text-center">Solicită o Rezervare</h2>
-                <form class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="nume" class="block text-xs font-semibold mb-1 text-stone-700">Nume și Prenume</label>
-                            <input type="text" id="nume" name="nume" required class="w-full text-xs p-3 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-eco-500">
-                        </div>
-                        <div>
-                            <label for="email" class="block text-xs font-semibold mb-1 text-stone-700">Adresă de Email</label>
-                            <input type="email" id="email" name="email" required class="w-full text-xs p-3 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-eco-500">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="checkin" class="block text-xs font-semibold mb-1 text-stone-700">Data Check-in</label>
-                            <input type="date" id="checkin" name="checkin" required class="w-full text-xs p-3 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-eco-500">
-                        </div>
-                        <div>
-                            <label for="checkout" class="block text-xs font-semibold mb-1 text-stone-700">Data Check-out</label>
-                            <input type="date" id="checkout" name="checkout" required class="w-full text-xs p-3 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-eco-500">
-                        </div>
+            <!-- QUICK BOOKING BAR -->
+            <div class="mt-8 bg-white/95 backdrop-blur-lg p-4 sm:p-6 rounded-2xl shadow-2xl text-gray-800 max-w-5xl mx-auto text-left border border-white/20">
+                <form id="hero-quick-form" onsubmit="handleHeroSubmit(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-eco-900 mb-1"><i class="fa-regular fa-calendar mr-1"></i> Check-In</label>
+                        <input type="date" id="hero-checkin" required class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-eco-600 focus:border-eco-600 p-2.5">
                     </div>
                     <div>
-                        <label for="tip_cazare" class="block text-xs font-semibold mb-1 text-stone-700">Tip Cazare</label>
-                        <select id="tip_cazare" name="tip_cazare" class="w-full text-xs p-3 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-eco-500">
-                            <option value="rulota">Loc de Rulotă / Autorulotă</option>
-                            <option value="cort">Zona de Corturi</option>
-                            <option value="casuta">Căsuță Glamping</option>
+                        <label class="block text-xs font-bold uppercase text-eco-900 mb-1"><i class="fa-regular fa-calendar-check mr-1"></i> Check-Out</label>
+                        <input type="date" id="hero-checkout" required class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-eco-600 focus:border-eco-600 p-2.5">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-eco-900 mb-1"><i class="fa-solid fa-campground mr-1"></i> Tip Cazare</label>
+                        <select id="hero-type" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-eco-600 focus:border-eco-600 p-2.5">
+                            <option value="Loc Cort (45 LEI/noapte)">Loc Cort (45 LEI/noapte)</option>
+                            <option value="Parcelă Rulotă (90 LEI/noapte)">Parcelă Rulotă (90 LEI/noapte)</option>
                         </select>
                     </div>
                     <div>
-                        <label for="mesaj" class="block text-xs font-semibold mb-1 text-stone-700">Mesaj / Cerințe Speciale</label>
-                        <textarea id="mesaj" name="mesaj" rows="3" class="w-full text-xs p-3 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-eco-500"></textarea>
+                        <label class="block text-xs font-bold uppercase text-eco-900 mb-1"><i class="fa-solid fa-users mr-1"></i> Persoane</label>
+                        <select id="hero-guests" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-eco-600 focus:border-eco-600 p-2.5">
+                            <option value="1 Persoană">1 Persoană</option>
+                            <option value="2 Persoane" selected>2 Persoane</option>
+                            <option value="3 Persoane">3 Persoane (Familie)</option>
+                            <option value="4+ Persoane">4+ Persoane (Familie)</option>
+                        </select>
                     </div>
-                    <button type="submit" class="w-full bg-eco-700 hover:bg-eco-800 text-white font-bold py-3 rounded-lg transition">
-                        Trimite Solicitarea
-                    </button>
+                    <div>
+                        <button type="submit" class="w-full bg-eco-800 hover:bg-eco-900 text-white font-bold py-2.5 px-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <span>Rezervă</span>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Footer Complet (4 Coloane) -->
-    <footer class="bg-eco-950 text-emerald-100 pt-12 pb-8 border-t border-emerald-900">
+    <!-- SECTION: ABOUT & CONCEPT -->
+    <section id="despre" class="py-16 sm:py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <!-- Coloana 1: Despre firmă -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-eco-800 font-bold uppercase tracking-wider text-xs bg-eco-100 px-3 py-1 rounded-full">Despre Locație</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
+                        S.C. POIANA COPILĂRIEI S.R.L. - în Inima Satului
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed text-sm sm:text-base">
+                        Un spațiu dedicat relaxării în comuna Poiana Blenchii, județul Sălaj, creat pentru familii și călători care apreciază aerul curat, tradiția și un cadru natural autentic.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="flex items-start gap-3 p-3 bg-eco-50 rounded-xl border border-eco-100">
+                            <i class="fa-solid fa-solar-panel text-eco-600 text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm">Suport Solar</h4>
+                                <p class="text-xs text-gray-600">Panouri solare pentru iluminat și apă caldă.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 bg-eco-50 rounded-xl border border-eco-100">
+                            <i class="fa-solid fa-recycle text-eco-600 text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm">Reciclare Selectivă</h4>
+                                <p class="text-xs text-gray-600">Puncte de colectare a deșeurilor în poiană.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 bg-eco-50 rounded-xl border border-eco-100">
+                            <i class="fa-solid fa-child-reaching text-eco-600 text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm">Loc de Joacă</h4>
+                                <p class="text-xs text-gray-600">Spațiu sigur și amenajat pentru copii.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 bg-eco-50 rounded-xl border border-eco-100">
+                            <i class="fa-solid fa-apple-whole text-eco-600 text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm">Produse Locale</h4>
+                                <p class="text-xs text-gray-600">Fructe și legume proaspete din zona Sălajului.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-eco-100">
+                        <img src="images/galerie3.jpg" alt="Camping Poiana Copilariei" class="w-full h-auto object-cover" onerror="this.src='https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: ACCOMMODATION -->
+    <section id="cazare" class="py-16 sm:py-24 bg-eco-50/50 border-y border-eco-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-eco-800 font-bold uppercase tracking-wider text-xs bg-eco-100 px-3 py-1 rounded-full">Portofoliu Cazare</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mt-3">Locuri pentru Corturi și Rulote</h2>
+                <p class="text-gray-600 mt-2">Alege opțiunea perfectă pentru șederea ta în Poiana Blenchii.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Card 1: Cort -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col group">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="images/galerie1.jpg" alt="Loc de Cort" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=800&q=80'">
+                        <span class="absolute top-4 right-4 bg-eco-900/90 text-solar-400 text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm border border-eco-700">45 LEI / noapte</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Loc de Cort</h3>
+                            <p class="text-gray-600 text-sm">Pajiște naturală, umbră naturală de la arbori, spațiu ideal pentru campare.</p>
+                            <ul class="mt-4 space-y-2 text-xs text-gray-500">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-leaf text-eco-600"></i> Acces la grupuri sanitare și dușuri</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-leaf text-eco-600"></i> Acces vetre comune pentru focul de tabără</li>
+                            </ul>
+                        </div>
+                        <button onclick="openBookingModalWith('Loc Cort (45 LEI/noapte)')" class="w-full mt-4 bg-eco-100 hover:bg-eco-800 hover:text-white text-eco-900 font-bold py-2.5 rounded-xl transition-colors text-sm">
+                            Alege Loc de Cort
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2: Parcela Rulota -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-solar-500/50 hover:shadow-xl transition-all duration-300 flex flex-col group relative">
+                    <span class="absolute top-0 left-1/2 -translate-x-1/2 bg-solar-500 text-eco-950 text-[10px] uppercase tracking-widest font-black px-4 py-0.5 rounded-b-md">Recomandat</span>
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="images/galerie2.jpg" alt="Parcela Rulota" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&w=800&q=80'">
+                        <span class="absolute top-4 right-4 bg-eco-900/90 text-solar-400 text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm border border-eco-700">90 LEI / noapte</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Parcelă Rulotă / Camper</h3>
+                            <p class="text-gray-600 text-sm">Parcele spațioase prevăzute cu alimentare electrică și punct de apă.</p>
+                            <ul class="mt-4 space-y-2 text-xs text-gray-500">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-leaf text-eco-600"></i> Conexiune electrică 220V</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-leaf text-eco-600"></i> Punct de alimentare cu apă</li>
+                            </ul>
+                        </div>
+                        <button onclick="openBookingModalWith('Parcelă Rulotă (90 LEI/noapte)')" class="w-full mt-4 bg-solar-500 hover:bg-solar-400 text-eco-950 font-bold py-2.5 rounded-xl transition-colors text-sm shadow">
+                            Alege Parcelă Rulotă
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: FACILITIES -->
+    <section id="facilitati" class="py-16 bg-eco-900 text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-solar-400 font-bold uppercase tracking-wider text-xs">Facilități Camping</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-2">Confort și Spații Dedicate Copiilor</h2>
+                <p class="text-eco-100 text-sm sm:text-base mt-2">Tot ce ai nevoie pentru o ședere plăcută în natură.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-eco-950/70 p-6 rounded-2xl border border-eco-800 text-center hover:border-solar-400/50 transition-all">
+                    <div class="w-12 h-12 bg-solar-500/20 text-solar-400 rounded-xl flex items-center justify-center mx-auto text-2xl mb-4">
+                        <i class="fa-solid fa-children"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">Loc de Joacă</h3>
+                    <p class="text-xs text-gray-300">Spațiu sigur și amenajat pentru copii.</p>
+                </div>
+                <div class="bg-eco-950/70 p-6 rounded-2xl border border-eco-800 text-center hover:border-solar-400/50 transition-all">
+                    <div class="w-12 h-12 bg-solar-500/20 text-solar-400 rounded-xl flex items-center justify-center mx-auto text-2xl mb-4">
+                        <i class="fa-solid fa-shower"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">Dușuri & Apă Caldă</h3>
+                    <p class="text-xs text-gray-300">Grupuri sanitare igienizate și apă caldă.</p>
+                </div>
+                <div class="bg-eco-950/70 p-6 rounded-2xl border border-eco-800 text-center hover:border-solar-400/50 transition-all">
+                    <div class="w-12 h-12 bg-solar-500/20 text-solar-400 rounded-xl flex items-center justify-center mx-auto text-2xl mb-4">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">Foc de Tabără</h3>
+                    <p class="text-xs text-gray-300">Vetre amenajate pentru seri liniștite.</p>
+                </div>
+                <div class="bg-eco-950/70 p-6 rounded-2xl border border-eco-800 text-center hover:border-solar-400/50 transition-all">
+                    <div class="w-12 h-12 bg-solar-500/20 text-solar-400 rounded-xl flex items-center justify-center mx-auto text-2xl mb-4">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-1">Wi-Fi Zone</h3>
+                    <p class="text-xs text-gray-300">Conexiune internet în spațiile de socializare.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: RULES, Q&A, REVIEWS -->
+    <section id="regulament" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <div>
-                    <h4 class="text-white font-bold text-sm mb-3">POIANA COPILĂRIEI</h4>
-                    <p class="text-xs text-emerald-300 leading-relaxed">
-                        S.C. POIANA COPILĂRIEI S.R.L.<br>
+                    <span class="text-eco-800 font-bold uppercase tracking-wider text-xs bg-eco-100 px-3 py-1 rounded-full">Informații</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-3 mb-6">Regulament & Întrebări Frecvente</h2>
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-xl overflow-hidden">
+                            <button onclick="toggleFaq('faq-1')" class="w-full text-left p-4 font-bold text-gray-800 flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition-colors">
+                                <span>Care sunt orele de Check-in și Check-out?</span>
+                                <i class="fa-solid fa-chevron-down text-gray-500 transition-transform" id="icon-faq-1"></i>
+                            </button>
+                            <div id="faq-1" class="hidden p-4 text-sm text-gray-600 border-t border-gray-200 bg-white">
+                                Check-in între orele 14:00 - 20:00, iar Check-out până la ora 11:00.
+                            </div>
+                        </div>
+                        <div class="border border-gray-200 rounded-xl overflow-hidden">
+                            <button onclick="toggleFaq('faq-2')" class="w-full text-left p-4 font-bold text-gray-800 flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition-colors">
+                                <span>Sunt permise animalele de companie?</span>
+                                <i class="fa-solid fa-chevron-down text-gray-500 transition-transform" id="icon-faq-2"></i>
+                            </button>
+                            <div id="faq-2" class="hidden p-4 text-sm text-gray-600 border-t border-gray-200 bg-white">
+                                Da, campingul este Pet-Friendly, cu condiția supravegherii și păstrării curățeniei.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-eco-800 font-bold uppercase tracking-wider text-xs bg-eco-100 px-3 py-1 rounded-full">Recenzii</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-3 mb-6">Păreri Oaspeți</h2>
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm relative">
+                            <div class="flex items-center gap-1 text-solar-500 mb-2">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-gray-700 text-sm italic">"Un loc minunat în Poiana Blenchii pentru familie. Liniște, aer curat și condiții excelente pentru rulotă!"</p>
+                            <div class="mt-4 flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-eco-800 text-white font-bold flex items-center justify-center text-xs">A.M.</div>
+                                <div>
+                                    <h4 class="font-bold text-xs text-gray-900">Andreea Moldovan</h4>
+                                    <span class="text-[10px] text-gray-400">Turist</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: GALERIE FOTO -->
+    <section id="galerie" class="py-16 sm:py-24 bg-eco-50/65 border-t border-eco-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-eco-800 font-bold uppercase tracking-wider text-xs bg-eco-100 px-3 py-1 rounded-full">Vizual</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mt-3">Galerie Foto</h2>
+                <p class="text-gray-600 mt-2">Aruncă o privire asupra naturii, spațiilor de campare și atmosferei din Poiana Blenchii.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="group relative rounded-2xl overflow-hidden shadow-md bg-white border border-gray-200 aspect-[4/3]">
+                    <img src="images/galerie1.jpg" alt="Poiana Copilăriei Foto 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=800&q=80'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-white text-sm font-semibold">Zona de Corturi și Natură</span>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden shadow-md bg-white border border-gray-200 aspect-[4/3]">
+                    <img src="images/galerie2.jpg" alt="Poiana Copilăriei Foto 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&w=800&q=80'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-white text-sm font-semibold">Parcări Rulote și Campere</span>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden shadow-md bg-white border border-gray-200 aspect-[4/3]">
+                    <img src="images/galerie3.jpg" alt="Poiana Copilăriei Foto 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=800&q=80'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-white text-sm font-semibold">Peisaj Autentic Sălaj</span>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden shadow-md bg-white border border-gray-200 aspect-[4/3]">
+                    <img src="images/galerie4.jpg" alt="Poiana Copilăriei Foto 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=800&q=80'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-white text-sm font-semibold">Apusuri în Poiană</span>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden shadow-md bg-white border border-gray-200 aspect-[4/3]">
+                    <img src="images/galerie5.jpg" alt="Poiana Copilăriei Foto 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1533873984035-25970a07462e?auto=format&fit=crop&w=800&q=80'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-white text-sm font-semibold">Momente de Relaxare</span>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden shadow-md bg-white border border-gray-200 aspect-[4/3]">
+                    <img src="images/galerie6.jpg" alt="Poiana Copilăriei Foto 6" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1508873696983-2df5c920cad2?auto=format&fit=crop&w=800&q=80'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-white text-sm font-semibold">Tradiție și Natură în Sălaj</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: CONTACT -->
+    <section id="contact" class="py-16 sm:py-24 bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-eco-800 font-bold uppercase tracking-wider text-xs bg-eco-100 px-3 py-1 rounded-full">Contact Direct</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900">Hai la Poiana Copilăriei!</h2>
+                    <p class="text-gray-600 text-sm sm:text-base">
+                        Ne găsești în comuna Poiana Blenchii, județul Sălaj. Sună-ne sau trimite-ne un mesaj pentru detalii despre rezervări și disponibilitate.
+                    </p>
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-eco-100 text-eco-800 rounded-xl flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-400 uppercase">Telefon</h4>
+                                <a href="tel:+40740286241" class="font-bold text-gray-900 hover:text-eco-600 text-base">+40 740 286 241</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-eco-100 text-eco-800 rounded-xl flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-400 uppercase">Adresă</h4>
+                                <p class="font-bold text-gray-900 text-sm">Poiana Blenchii, Județul Sălaj, România</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Trimite-ne un mesaj</h3>
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Nume</label>
+                            <input type="text" id="contact-name" required class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-eco-600 focus:border-eco-600 p-3">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Email / Telefon</label>
+                            <input type="text" id="contact-email" required class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-eco-600 focus:border-eco-600 p-3">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Mesaj</label>
+                            <textarea id="contact-message" rows="4" required class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-eco-600 focus:border-eco-600 p-3"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-eco-800 hover:bg-eco-900 text-white font-bold py-3 px-6 rounded-xl transition shadow">
+                            Trimite Mesajul
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-eco-950 text-emerald-100 pt-16 pb-8 border-t border-emerald-900 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <!-- Col 1 -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4">S.C. POIANA COPILĂRIEI S.R.L.</h4>
+                    <p class="text-xs text-emerald-300 leading-relaxed space-y-1">
                         CUI: 52525739<br>
-                        Poiana Blenchii, Sălaj.
+                        Poiana Blenchii, Județul Sălaj<br>
+                        în Inima Satului
                     </p>
                 </div>
-
-                <!-- Coloana 2: Navigare -->
+                <!-- Col 2 -->
                 <div>
-                    <h4 class="text-white font-bold text-sm mb-3">NAVIGARE</h4>
+                    <h4 class="text-white font-bold text-sm mb-4">NAVIGARE</h4>
                     <ul class="space-y-2 text-xs">
                         <li><a href="#acasa" class="hover:text-white transition">Acasă</a></li>
-                        <li><a href="#cazare" class="hover:text-white transition">Cazare</a></li>
-                        <li><a href="#galerie" class="hover:text-white transition">Galerie</a></li>
-                        <li><a href="sitemap.xml" class="hover:text-white transition">Sitemap XML</a></li>
-                        <li><a href="robots.txt" class="hover:text-white transition">Robots.txt</a></li>
+                        <li><a href="#despre" class="hover:text-white transition">Concept Eco</a></li>
+                        <li><a href="#cazare" class="hover:text-white transition">Cazare & Tarife</a></li>
+                        <li><a href="#facilitati" class="hover:text-white transition">Facilități</a></li>
+                        <li><a href="#galerie" class="hover:text-white transition">Galerie Foto</a></li>
                     </ul>
                 </div>
-
-                <!-- Coloana 3: Legal & GDPR -->
+                <!-- Col 3: Legal & GDPR -->
                 <div>
-                    <h4 class="text-white font-bold text-sm mb-3">LEGAL & GDPR</h4>
+                    <h4 class="text-white font-bold text-sm mb-4">LEGAL & GDPR</h4>
                     <ul class="space-y-2 text-xs">
-                        <li><a href="gdpr.html" class="hover:text-white transition">Politică de Confidențialitate</a></li>
+                        <li><a href="gdpr.html" class="hover:text-white transition">Politică de Confidențialitate (GDPR)</a></li>
                         <li><a href="termeni.html" class="hover:text-white transition">Termeni și Condiții</a></li>
                     </ul>
                 </div>
-
-                <!-- Coloana 4: ANPC (Butoane SAL / SOL) -->
+                <!-- Col 4: ANPC SAL / SOL -->
                 <div>
-                    <h4 class="text-white font-bold text-sm mb-3">ANPC</h4>
+                    <h4 class="text-white font-bold text-sm mb-4">ANPC</h4>
                     <div class="flex flex-col space-y-2">
                         <a href="https://anpc.ro/ce-este-sal/" target="_blank" rel="noopener" class="bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-semibold py-2 px-4 rounded text-center transition border border-emerald-700">
-                            SAL
+                            SAL (Soluționarea Alternativă)
                         </a>
                         <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener" class="bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-semibold py-2 px-4 rounded text-center transition border border-emerald-700">
-                            SOL
+                            SOL (Soluționarea Online)
                         </a>
                     </div>
                 </div>
             </div>
-
-            <!-- Bara inferioară de Copyright -->
             <div class="border-t border-emerald-900/60 pt-6 text-center">
                 <p class="text-xs text-emerald-400">
                     © 2026 S.C. POIANA COPILĂRIEI S.R.L. Toate drepturile rezervate.
@@ -205,32 +556,179 @@
         </div>
     </footer>
 
-    <!-- Script Restricție Date Calendar (Check-in & Check-out) -->
+    <!-- MODAL REZERVARE -->
+    <div id="booking-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-gray-100 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-extrabold text-gray-900 mb-2">Solicită Rezervare</h3>
+            <p class="text-xs text-gray-500 mb-6">Completează datele pentru sejurul tău la Poiana Copilăriei.</p>
+            
+            <form id="booking-modal-form" onsubmit="handleModalSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Nume și Prenume</label>
+                    <input type="text" id="modal-name" required class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Telefon</label>
+                        <input type="tel" id="modal-phone" required class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Email</label>
+                        <input type="email" id="modal-email" required class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Check-In</label>
+                        <input type="date" id="modal-checkin" required class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Check-Out</label>
+                        <input type="date" id="modal-checkout" required class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Tip Cazare</label>
+                        <select id="modal-type" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
+                            <option value="Loc Cort (45 LEI/noapte)">Loc Cort (45 LEI/noapte)</option>
+                            <option value="Parcelă Rulotă (90 LEI/noapte)">Parcelă Rulotă (90 LEI/noapte)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Persoane</label>
+                        <select id="modal-guests" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
+                            <option value="1 Persoană">1 Persoană</option>
+                            <option value="2 Persoane">2 Persoane</option>
+                            <option value="3 Persoane">3 Persoane</option>
+                            <option value="4+ Persoane">4+ Persoane</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Observații / Cerințe</label>
+                    <textarea id="modal-notes" rows="2" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-solar-500 hover:bg-solar-400 text-eco-950 font-bold py-3.5 px-6 rounded-xl transition shadow">
+                    Trimite Solicitarea de Rezervare
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & RESTRICTIONARE CALENDAR -->
     <script>
+        // Meniu Mobil Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // FAQ Toggle
+        function toggleFaq(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            el.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        // Modal Control
+        function openBookingModal() {
+            document.getElementById('booking-modal').classList.remove('hidden');
+        }
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+        }
+        function openBookingModalWith(type) {
+            document.getElementById('modal-type').value = type;
+            openBookingModal();
+        }
+
+        // Restricționare Date Calendar (Blocare date anterioare zilei curente)
         document.addEventListener('DOMContentLoaded', function() {
-            // Data curentă în format YYYY-MM-DD
             const today = new Date().toISOString().split('T')[0];
             
-            const checkinInput = document.getElementById('checkin');
-            const checkoutInput = document.getElementById('checkout');
+            // Inputuri din Hero Quick Form
+            const heroCheckin = document.getElementById('hero-checkin');
+            const heroCheckout = document.getElementById('hero-checkout');
+            
+            // Inputuri din Modal Rezervare
+            const modalCheckin = document.getElementById('modal-checkin');
+            const modalCheckout = document.getElementById('modal-checkout');
 
-            if (checkinInput && checkoutInput) {
-                // Nu se pot alege date anterioare zilei curente
-                checkinInput.min = today;
-                checkoutInput.min = today;
+            if (heroCheckin && heroCheckout) {
+                heroCheckin.min = today;
+                heroCheckout.min = today;
+                heroCheckin.addEventListener('change', function() {
+                    heroCheckout.min = this.value;
+                    if (heroCheckout.value && heroCheckout.value < this.value) {
+                        heroCheckout.value = this.value;
+                    }
+                });
+            }
 
-                // Când utilizatorul schimbă data de check-in:
-                checkinInput.addEventListener('change', function() {
-                    const selectedCheckin = this.value;
-                    // Check-out nu poate fi mai devreme decât Check-in
-                    checkoutInput.min = selectedCheckin;
-                    
-                    if (checkoutInput.value && checkoutInput.value < selectedCheckin) {
-                        checkoutInput.value = selectedCheckin;
+            if (modalCheckin && modalCheckout) {
+                modalCheckin.min = today;
+                modalCheckout.min = today;
+                modalCheckin.addEventListener('change', function() {
+                    modalCheckout.min = this.value;
+                    if (modalCheckout.value && modalCheckout.value < this.value) {
+                        modalCheckout.value = this.value;
                     }
                 });
             }
         });
+
+        // Trimitere Formular Hero
+        function handleHeroSubmit(e) {
+            e.preventDefault();
+            const checkin = document.getElementById('hero-checkin').value;
+            const checkout = document.getElementById('hero-checkout').value;
+            const type = document.getElementById('hero-type').value;
+            const guests = document.getElementById('hero-guests').value;
+
+            // Deschidem modalul și precompletăm valorile
+            openBookingModal();
+            if(document.getElementById('modal-checkin')) document.getElementById('modal-checkin').value = checkin;
+            if(document.getElementById('modal-checkout')) document.getElementById('modal-checkout').value = checkout;
+            if(document.getElementById('modal-type')) document.getElementById('modal-type').value = type;
+            if(document.getElementById('modal-guests')) document.getElementById('modal-guests').value = guests;
+        }
+
+        // Trimitere Formular Modal prin EmailJS
+        function handleModalSubmit(e) {
+            e.preventDefault();
+            const templateParams = {
+                to_name: "Administrator",
+                from_name: document.getElementById('modal-name').value,
+                phone: document.getElementById('modal-phone').value,
+                email: document.getElementById('modal-email').value,
+                checkin: document.getElementById('modal-checkin').value,
+                checkout: document.getElementById('modal-checkout').value,
+                accommodation_type: document.getElementById('modal-type').value,
+                guests: document.getElementById('modal-guests').value,
+                notes: document.getElementById('modal-notes').value || "Fără observații"
+            };
+
+            emailjs.send('service_default', 'template_default', templateParams)
+                .then(function(response) {
+                    alert('Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.');
+                    closeBookingModal();
+                    document.getElementById('booking-modal-form').reset();
+                }, function(error) {
+                    alert('A apărut o eroare la trimitere. Vă rugăm să ne contactați telefonic la +40 740 286 241.');
+                });
+        }
+
+        // Trimitere Formular Contact
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            alert('Mesajul dumneavoastră a fost trimis cu succes! Vă vom contacta în cel mai scurt timp.');
+            e.target.reset();
+        }
     </script>
 </body>
 </html>
