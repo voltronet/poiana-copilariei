@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Calea către sitemap-ul oficial al site-ului
+Sitemap: https://poiana-copilariei.netlify.app//sitemap.xml
