@@ -1,0 +1,50 @@
+name: Actualizeaza Recenzii Automat
+
+on:
+  repository_dispatch:
+    types: [formspree_review]
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setează Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Adaugă recenzia în reviews.json
+        env:
+          PAYLOAD_DATA: ${{ toJson(github.event.client_payload) }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const payload = JSON.parse(process.env.PAYLOAD_DATA || "{}");
+            
+            // Preluăm datele trimise din Formspree
+            const newReview = {
+              name: payload.name || "Anonim",
+              rating: parseInt(payload.rating) || 5,
+              message: payload.message || "",
+              date: new Date().toISOString().split("T")[0]
+            };
+
+            let reviews = [];
+            if (fs.existsSync("reviews.json")) {
+              reviews = JSON.parse(fs.readFileSync("reviews.json", "utf8"));
+            }
+
+            reviews.push(newReview);
+            fs.writeFileSync("reviews.json", JSON.stringify(reviews, null, 2));
+          '
+
+      - name: Commit și Push în Repository
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "bot@users.noreply.github.com"
+          git add reviews.json
+          git commit -m "Recenzie nouă adăugată automat de pe Formspree"
+          git push

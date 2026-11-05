@@ -5,14 +5,14 @@
     <link rel="icon" type="image/png" href="favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.C. Poiana Copilăriei S.R.L. - Camping & Parc Rulote în Sălaj</title>
+    <title>S.C. POIANA COPILĂRIEI S.R.L. - Camping & Parc Rulote în Sălaj</title>
     <meta name="description" content="Camping și parc de rulote în Poiana Blenchii, județul Sălaj. Oază de liniște și natură pentru familii, locuri de cort, racorduri electrice, dușuri și loc de joacă. Rezervă la +40 740 286 241.">
-    <meta name="keywords" content="camping salaj, parc rulote poiana blenchii, cazare corturi salaj, poiana copilariei, in inima satului">
+    <meta name="keywords" content="camping salaj, parc rulote poiana blenchii, cazare corturi salaj, poiana copilariei, in iminima satului">
     <!-- Open Graph pentru Facebook / WhatsApp Sharing -->
     <meta property="og:title" content="Camping & Parc de Rulote Poiana Copilăriei - în Inima Satului">
     <meta property="og:description" content="Descoperă natura și relaxarea în Poiana Blenchii, județul Sălaj. Rezervă un loc de cort sau parcelă de rulotă!">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://poiana-copilariei.netlify.app/">
+    <meta property="og:url" content="https://voltronet.github.io/poiana-copilariei/">
     <meta property="og:image" content="logo_oficial.png">
 
     <!-- Tailwind CSS CDN -->
@@ -70,7 +70,7 @@
         .hero-bg {
             background: linear-gradient(rgba(5, 46, 22, 0.70), rgba(5, 46, 22, 0.80)), url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
         }
-        /* Scrollbar personalizat pentru recenzii */
+        /* Scroll custom pentru recenzii */
         .custom-scroll::-webkit-scrollbar {
             width: 6px;
         }
@@ -361,10 +361,12 @@
         </div>
     </section>
 
-    <!-- SECTION: RULES, Q&A, REVIEWS -->
+    <!-- SECTION: RULES, Q&A & REVIEWS (2 Columns Layout) -->
     <section id="regulament" class="py-16 sm:py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                
+                <!-- STÂNGA: Regulament & Întrebări Frecvente -->
                 <div>
                     <span class="text-eco-800 font-bold uppercase tracking-wider text-xs bg-eco-100 px-3 py-1 rounded-full">Informații</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-3 mb-6">Regulament & Întrebări Frecvente</h2>
@@ -389,7 +391,7 @@
                                 Da, campingul este Pet-Friendly, cu condiția supravegherii și păstrării curățeniei.
                             </div>
                         </div>
-                        <!-- FAQ 3 (Nou) -->
+                        <!-- FAQ 3 -->
                         <div class="border border-gray-200 rounded-xl overflow-hidden">
                             <button onclick="toggleFaq('faq-3')" class="w-full text-left p-4 font-bold text-gray-800 flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition-colors">
                                 <span>Există curent electric și apă la fiecare parcelă de rulotă?</span>
@@ -399,7 +401,7 @@
                                 Da, fiecare parcelă dedicată rulotelor și camperelor dispune de punct de alimentare la curent 220V și acces facil la apă.
                             </div>
                         </div>
-                        <!-- FAQ 4 (Nou) -->
+                        <!-- FAQ 4 -->
                         <div class="border border-gray-200 rounded-xl overflow-hidden">
                             <button onclick="toggleFaq('faq-4')" class="w-full text-left p-4 font-bold text-gray-800 flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition-colors">
                                 <span>Cum se face plata avansului sau a rezervării?</span>
@@ -409,7 +411,7 @@
                                 Plata se poate face simplu și în siguranță prin intermediul linkurilor de plată online (Netopia Payments) trimise după confirmarea detaliilor.
                             </div>
                         </div>
-                        <!-- FAQ 5 (Nou) -->
+                        <!-- FAQ 5 -->
                         <div class="border border-gray-200 rounded-xl overflow-hidden">
                             <button onclick="toggleFaq('faq-5')" class="w-full text-left p-4 font-bold text-gray-800 flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition-colors">
                                 <span>Ce facilități sunt pentru focul de tabără și grătar?</span>
@@ -422,65 +424,57 @@
                     </div>
                 </div>
 
+                <!-- DREAPTA: Păreri Oaspeți (Dinamic din reviews.json + Formular Formspree) -->
                 <div>
                     <span class="text-eco-800 font-bold uppercase tracking-wider text-xs bg-eco-100 px-3 py-1 rounded-full">Recenzii</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-3 mb-6">Păreri Oaspeți</h2>
                     
-                    <!-- Container cu înălțime fixă și scroll vertical elegant -->
+                    <!-- Container cu înălțime fixă și scroll vertical unde se vor încărca recenziile -->
                     <div id="reviews-container" class="space-y-4 mb-6 max-h-[420px] overflow-y-auto pr-2 custom-scroll">
-                        <!-- Recenzia de bază (Andreea Moldovan) -->
-                        <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm relative">
-                            <div class="flex items-center gap-1 text-solar-500 mb-2">
-                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                            </div>
-                            <p class="text-gray-700 text-sm italic">"Un loc minunat în Poiana Blenchii pentru familie. Liniște, aer curat și condiții excelente pentru rulotă!"</p>
-                            <div class="mt-4 flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-eco-800 text-white font-bold flex items-center justify-center text-xs">A.M.</div>
-                                <div>
-                                    <h4 class="font-bold text-xs text-gray-900">Andreea Moldovan</h4>
-                                    <span class="text-[10px] text-gray-400">Turist</span>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Recenziile se vor încărca dinamic aici prin JavaScript din reviews.json -->
+                        <div class="text-center py-8 text-gray-400 text-sm">Se încarcă recenziile...</div>
                     </div>
 
-                    <!-- Buton Deschidere Formular Recenzie -->
-                    <button onclick="toggleReviewForm()" id="toggle-review-btn" class="w-full bg-eco-100 hover:bg-eco-200 text-eco-900 font-bold py-3 px-4 rounded-xl transition text-sm flex items-center justify-center gap-2 border border-eco-200">
-                        <i class="fa-solid fa-pen-to-square"></i> Adaugă propria recenzie
+                    <!-- Buton Deschidere / Închidere Formular Recenzie -->
+                    <button onclick="toggleReviewForm()" id="toggle-review-btn" class="w-full bg-eco-800 hover:bg-eco-900 text-white font-bold py-3 px-6 rounded-2xl transition shadow flex items-center justify-center gap-2 mb-4">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <span>Lasă părerea ta despre Poiana Copilăriei</span>
                     </button>
 
-                    <!-- Formular Ascuns pentru Adăugare Recenzie -->
-                    <div id="review-form-box" class="hidden mt-4 bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-sm">
-                        <h4 class="font-bold text-gray-900 text-sm mb-3">Lasă părerea ta despre Poiana Copilăriei</h4>
-                        <form onsubmit="handleReviewSubmit(event)" class="space-y-3">
+                    <!-- Formular Ascuns de Adăugare Recenzie (Conectat la Formspree) -->
+                    <div id="review-form-box" class="hidden bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Adaugă o recenzie nouă</h3>
+                        <form id="review-form" onsubmit="handleReviewSubmit(event)" class="space-y-4">
                             <div>
                                 <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Nume și Prenume</label>
-                                <input type="text" id="reviewer-name" required class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-xl p-2.5">
+                                <input type="text" id="review-name" name="name" required class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Rating (Stele)</label>
-                                <select id="reviewer-rating" class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-xl p-2.5">
+                                <select id="review-rating" name="rating" class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
                                     <option value="5">⭐⭐⭐⭐⭐ (5 Stele - Excelent)</option>
                                     <option value="4">⭐⭐⭐⭐ (4 Stele - Foarte bun)</option>
                                     <option value="3">⭐⭐⭐ (3 Stele - Mediu)</option>
+                                    <option value="2">⭐⭐ (2 Stele)</option>
+                                    <option value="1">⭐ (1 Stea)</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Mesajul tău</label>
-                                <textarea id="reviewer-message" rows="3" required class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-xl p-2.5"></textarea>
+                                <textarea id="review-text" name="message" rows="3" required class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-xl p-3" placeholder="Cum a fost experiența ta la Poiana Copilăriei?"></textarea>
                             </div>
                             <div class="flex gap-2">
-                                <button type="submit" class="flex-1 bg-eco-800 hover:bg-eco-900 text-white font-bold py-2.5 px-4 rounded-xl transition text-xs shadow">
+                                <button type="submit" id="review-submit-btn" class="flex-1 bg-eco-800 hover:bg-eco-900 text-white font-bold py-2.5 px-4 rounded-xl transition text-sm">
                                     Trimite Recenzia
                                 </button>
-                                <button type="button" onclick="toggleReviewForm()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2.5 px-4 rounded-xl transition text-xs">
+                                <button type="button" onclick="toggleReviewForm()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2.5 px-4 rounded-xl transition text-sm">
                                     Anulează
                                 </button>
                             </div>
                         </form>
                     </div>
-
                 </div>
+
             </div>
         </div>
     </section>
@@ -722,7 +716,7 @@
             icon.classList.toggle('rotate-180');
         }
 
-        // Modal Control
+        // Modal Control Rezervare
         function openBookingModal() {
             document.getElementById('booking-modal').classList.remove('hidden');
         }
@@ -734,19 +728,20 @@
             openBookingModal();
         }
 
-        // Toggle Formular Recenzii
+        // Toggle Formular Recenzie Local
         function toggleReviewForm() {
-            const box = document.getElementById('review-form-box');
+            const formBox = document.getElementById('review-form-box');
             const btn = document.getElementById('toggle-review-btn');
-            box.classList.toggle('hidden');
-            btn.classList.toggle('hidden');
+            formBox.classList.toggle('hidden');
+            if (!formBox.classList.contains('hidden')) {
+                btn.classList.add('hidden');
+            } else {
+                btn.classList.remove('hidden');
+            }
         }
 
-        // Încărcare și Gestionare Recenzii Dinamice (LocalStorage)
+        // Încărcare automată a recenziilor din reviews.json la deschiderea paginii
         document.addEventListener('DOMContentLoaded', function() {
-            loadReviews();
-
-            // Restricționare Date Calendar (Blocare date anterioare zilei curente)
             const today = new Date().toISOString().split('T')[0];
             const heroCheckin = document.getElementById('hero-checkin');
             const heroCheckout = document.getElementById('hero-checkout');
@@ -774,52 +769,109 @@
                     }
                 });
             }
+
+            // Apel încărcare recenzii
+            loadReviews();
         });
 
-        function loadReviews() {
+        async function loadReviews() {
             const container = document.getElementById('reviews-container');
-            const savedReviews = JSON.parse(localStorage.getItem('poiana_reviews')) || [];
+            try {
+                const response = await fetch('reviews.json?t=' + new Date().getTime());
+                if (!response.ok) throw nu Error('Eroare la citirea recenziilor');
+                const reviews = await response.json();
+                
+                container.innerHTML = ''; // Golim containerul
+                
+                reviews.reverse().forEach(rev => {
+                    let starsHtml = '';
+                    for (let i = 0; i < rev.rating; i++) {
+                        starsHtml += '<i class="fa-solid fa-star"></i>';
+                    }
+                    const initials = rev.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
-            // Generăm stelele pentru recenziile salvate
-            savedReviews.forEach(rev => {
-                let starsHTML = '';
-                for(let i=0; i<rev.rating; i++) {
-                    starsHTML += '<i class="fa-solid fa-star"></i>';
-                }
-
-                // Initialele pentru cerculeț
-                const initials = rev.name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
-
-                const reviewCard = document.createElement('div');
-                reviewCard.className = "bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm relative";
-                reviewCard.innerHTML = `
-                    <div class="flex items-center gap-1 text-solar-500 mb-2">${starsHTML}</div>
-                    <p class="text-gray-700 text-sm italic">"${rev.message}"</p>
-                    <div class="mt-4 flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-eco-800 text-white font-bold flex items-center justify-center text-xs">${initials}</div>
-                        <div>
-                            <h4 class="font-bold text-xs text-gray-900">${rev.name}</h4>
-                            <span class="text-[10px] text-gray-400">Turist</span>
+                    const reviewCard = document.createElement('div');
+                    reviewCard.className = 'bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm relative';
+                    reviewCard.innerHTML = `
+                        <div class="flex items-center gap-1 text-solar-500 mb-2">${starsHtml}</div>
+                        <p class="text-gray-700 text-sm italic">"${rev.message}"</p>
+                        <div class="mt-4 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-eco-800 text-white font-bold flex items-center justify-center text-xs">${initials}</div>
+                            <div>
+                                <h4 class="font-bold text-xs text-gray-900">${rev.name}</h4>
+                                <span class="text-[10px] text-gray-400">Turist</span>
+                            </div>
                         </div>
-                    </div>
-                `;
-                container.appendChild(reviewCard);
-            });
+                    `;
+                    container.appendChild(reviewCard);
+                });
+            } catch (error) {
+                container.innerHTML = '<p class="text-center text-gray-400 text-sm py-4">Nu s-au putut încărca recenziile momentan.</p>';
+            }
         }
 
-        function handleReviewSubmit(e) {
+        // Trimitere recenzie nouă către Formspree și adăugare dinamică locală
+        async function handleReviewSubmit(e) {
             e.preventDefault();
-            const name = document.getElementById('reviewer-name').value;
-            const rating = document.getElementById('reviewer-rating').value;
-            const message = document.getElementById('reviewer-message').value;
+            const form = document.getElementById('review-form');
+            const submitBtn = document.getElementById('review-submit-btn');
+            
+            const name = document.getElementById('review-name').value;
+            const rating = parseInt(document.getElementById('review-rating').value);
+            const text = document.getElementById('review-text').value;
 
-            const newReview = { name, rating, message };
-            const savedReviews = JSON.parse(localStorage.getItem('poiana_reviews')) || [];
-            savedReviews.push(newReview);
-            localStorage.setItem('poiana_reviews', JSON.stringify(savedReviews));
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Se trimite...';
 
-            alert('Mulțumim pentru recenzie! A fost adăugată cu succes.');
-            location.reload(); // Reîncărcăm pagina pentru a afișa noua recenzie instant
+            try {
+                const response = await fetch('https://formspree.io/f/mbggwwgn', {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Generare stele vizuale
+                    let starsHtml = '';
+                    for (let i = 0; i < rating; i++) {
+                        starsHtml += '<i class="fa-solid fa-star"></i>';
+                    }
+
+                    // Inițiale pentru avatar
+                    const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+                    // Creare element recenzie în container
+                    const container = document.getElementById('reviews-container');
+                    const newReview = document.createElement('div');
+                    newReview.className = 'bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm relative';
+                    newReview.innerHTML = `
+                        <div class="flex items-center gap-1 text-solar-500 mb-2">${starsHtml}</div>
+                        <p class="text-gray-700 text-sm italic">"${text}"</p>
+                        <div class="mt-4 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-eco-800 text-white font-bold flex items-center justify-center text-xs">${initials}</div>
+                            <div>
+                                <h4 class="font-bold text-xs text-gray-900">${name}</h4>
+                                <span class="text-[10px] text-gray-400">Turist</span>
+                            </div>
+                        </div>
+                    `;
+
+                    container.prepend(newReview);
+                    alert('Mulțumim! Recenzia ta a fost trimisă cu succes.');
+                    form.reset();
+                    toggleReviewForm();
+                    document.getElementById('toggle-review-btn').classList.remove('hidden');
+                } else {
+                    alert('A apărut o problemă la trimiterea recenziei. Vă rugăm să încercați din nou.');
+                }
+            } catch (error) {
+                alert('Eroare de conexiune. Vă rugăm să verificați conexiunea la internet.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Trimite Recenzia';
+            }
         }
 
         // Trimitere Formular Hero
