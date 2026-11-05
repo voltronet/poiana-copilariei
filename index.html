@@ -1089,22 +1089,21 @@
             const clientName = document.getElementById('modal-name').value;
 
             const templateParams = {
-                to_name: clientName,
-                to_email: clientEmail,
-                from_name: clientName,
-                phone: document.getElementById('modal-phone').value,
+                nume: clientName,
+                telefon: document.getElementById('modal-phone').value,
                 email: clientEmail,
-                checkin: document.getElementById('modal-checkin').value,
-                checkout: document.getElementById('modal-checkout').value,
-                accommodation_type: document.getElementById('modal-type').value,
-                guests: document.getElementById('modal-guests').value,
-                notes: document.getElementById('modal-notes') ? document.getElementById('modal-notes').value : "Fără observații"
+                tip_cazare: document.getElementById('modal-type').value,
+                data_checkin: document.getElementById('modal-checkin').value,
+                data_checkout: document.getElementById('modal-checkout').value,
+                pret_estimat: "Calcul standard la fața locului", // Poți înlocui cu valoarea calculată dacă ai un input de preț
+                numar_persoane: document.getElementById('modal-guests').value,
+                cereri_speciale: document.getElementById('modal-notes') ? document.getElementById('modal-notes').value : "Fără observații"
             };
 
-            // Apelăm EmailJS cu ID-ul tău de serviciu și șablonul corect
+            // Trimitem prin EmailJS folosind ID-ul corect de serviciu și șablon
             emailjs.send('service_txpe8pv', 'template_9jdsq3i', templateParams)
                 .then(function (response) {
-                    alert('Solicitarea de rezervare a fost trimisă cu succes! Ați primit un email de confirmare.');
+                    alert('Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.');
                     closeBookingModal();
                     document.getElementById('booking-modal-form').reset();
                 }, function (error) {
