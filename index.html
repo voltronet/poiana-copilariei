@@ -913,22 +913,22 @@
         </div>
     </div>
 
-    <!-- SCRIPTUL JAVASCRIPT ROBUST PENTRU REZERVARE -->
+    <!-- SCRIPTUL JAVASCRIPT FINAL PENTRU REZERVARE -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const btn = document.getElementById('submit-booking-btn');
             if (btn) {
                 btn.addEventListener('click', async function () {
 
-                    // Preluăm valorile din câmpuri
-                    const nameVal = document.getElementById('modal-name').value;
-                    const phoneVal = document.getElementById('modal-phone').value;
-                    const emailVal = document.getElementById('modal-email').value;
-                    const checkinVal = document.getElementById('modal-checkin').value;
-                    const checkoutVal = document.getElementById('modal-checkout').value;
-                    const typeVal = document.getElementById('modal-type').value;
-                    const guestsVal = document.getElementById('modal-guests').value;
-                    const notesVal = document.getElementById('modal-notes').value;
+                    // Citim valorile direct din ID-urile elementelor din modal
+                    const nameVal = document.getElementById('modal-name')?.value || document.getElementById('name')?.value || '';
+                    const phoneVal = document.getElementById('modal-phone')?.value || document.getElementById('phone')?.value || '';
+                    const emailVal = document.getElementById('modal-email')?.value || document.getElementById('email')?.value || '';
+                    const checkinVal = document.getElementById('modal-checkin')?.value || document.getElementById('checkin')?.value || '';
+                    const checkoutVal = document.getElementById('modal-checkout')?.value || document.getElementById('checkout')?.value || '';
+                    const typeVal = document.getElementById('modal-type')?.value || '';
+                    const guestsVal = document.getElementById('modal-guests')?.value || '';
+                    const notesVal = document.getElementById('modal-notes')?.value || '';
                     const paymentVal = document.querySelector('input[name="payment_method"]:checked')?.value || 'cash';
 
                     if (!nameVal || !phoneVal || !emailVal) {
@@ -936,9 +936,9 @@
                         return;
                     }
 
-                    // Construim obiectul cu TOATE variantele de chei (atât pentru Formspree, cât și pentru șablonul tău EmailJS în română)
+                    // Trimitem toate variantele posibile de chei, ca să acoperim 100% șablonul din EmailJS
                     const formData = {
-                        // Chei standard (pentru Formspree / CSV)
+                        // Pentru Formspree și chei standard
                         name: nameVal,
                         phone: phoneVal,
                         email: emailVal,
@@ -949,12 +949,15 @@
                         notes: notesVal,
                         payment_method: paymentVal,
 
-                        // Chei specifice șablonului tău EmailJS (văzute în imagine)
+                        // Pentru șablonul EmailJS (toate denumirile posibile)
                         nume_client: nameVal,
+                        nume: nameVal,
                         telefon: phoneVal,
                         email_oaspete: emailVal,
                         tip_cazare: typeVal,
-                        perioada_sejur: `${checkinVal} → ${checkoutVal}`,
+                        perioada_sejur: (checkinVal && checkoutVal) ? `${checkinVal} → ${checkoutVal}` : (checkinVal || checkoutVal || 'Nespecificat'),
+                        check_in: checkinVal,
+                        check_out: checkoutVal,
                         numar_persoane: guestsVal,
                         cereri_speciale: notesVal || 'Fără cereri speciale',
                         metoda_plata: paymentVal
@@ -963,7 +966,7 @@
                     btn.innerText = "Se trimite...";
                     btn.disabled = true;
 
-                    // 1. Trimitere Formspree
+                    // 1. Formspree
                     try {
                         await fetch("https://formspree.io/f/mnppwrvl", {
                             method: "POST",
@@ -977,7 +980,7 @@
                         console.error("Eroare Formspree:", err);
                     }
 
-                    // 2. Trimitere EmailJS (folosind exact aceleași ID-uri stabilite)
+                    // 2. EmailJS
                     try {
                         if (typeof emailjs !== 'undefined') {
                             await emailjs.send("service_txpe8pv", "template_9jdsq3i", formData);
