@@ -874,19 +874,7 @@
                         <option value="4+ Persoane">4+ Persoane</option>
                     </select>
                 </div>
-            </div>
-            <div>
-                <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Observații / Cerințe</label>
-                <textarea id="modal-notes" rows="2"
-                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3"></textarea>
-            </div>
-
-
-            <!-- IFRAME ASCUNS (ține Formspree în fundal fără să mute utilizatorul de pe pagină) -->
-            <iframe name="hidden-iframe" id="hidden-iframe" style="display:none;"
-                onload="if(window.submitted) { alert('Solicitarea de rezervare a fost trimisă cu succes!'); closeBookingModal(); location.reload(); }"></iframe>
-
-            <!-- MODAL REZERVARE -->
+            </div><!-- MODAL REZERVARE UNIC ȘI CURAT -->
             <div id="booking-modal"
                 class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
                 <div
@@ -899,8 +887,7 @@
                     <p class="text-xs text-gray-500 mb-6">Completează datele pentru sejurul tău la Poiana Copilăriei.
                     </p>
 
-                    <!-- Formular curat, fără action/target, controlat 100% prin JavaScript -->
-                    <form id="booking-modal-form" onsubmit="handleModalSubmit(event)" class="space-y-4">
+                    <form id="booking-modal-form" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Nume și Prenume</label>
                             <input type="text" id="modal-name" required
@@ -957,6 +944,7 @@
                             <textarea id="modal-notes" rows="2"
                                 class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3"></textarea>
                         </div>
+
                         <!-- OPȚIUNE PLATĂ NETOPIA -->
                         <div class="pt-2">
                             <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Metodă de Plată</label>
@@ -982,7 +970,7 @@
                             </div>
                         </div>
 
-                        <!-- UNICUL BUTON DE TRIMITERE (CU ID ȘI TYPE="BUTTON") -->
+                        <!-- BUTONUL DE SUBMIT CU ID CLAR -->
                         <button type="button" id="submit-booking-btn"
                             class="w-full bg-solar-500 hover:bg-solar-400 text-eco-950 font-bold py-3.5 px-6 rounded-xl transition shadow mt-2">
                             Trimite Solicitarea de Rezervare
@@ -993,65 +981,69 @@
 
             <!-- SCRIPTUL JAVASCRIPT ROBUST PENTRU REZERVARE -->
             <script>
-                async function handleModalSubmit(event) {
-                    event.preventDefault();
+                document.addEventListener("DOMContentLoaded", function () {
+                    const btn = document.getElementById('submit-booking-btn');
+                    if (btn) {
+                        btn.addEventListener('click', async function () {
+                            const formData = {
+                                name: document.getElementById('modal-name').value,
+                                phone: document.getElementById('modal-phone').value,
+                                email: document.getElementById('modal-email').value,
+                                checkin: document.getElementById('modal-checkin').value,
+                                checkout: document.getElementById('modal-checkout').value,
+                                accommodation_type: document.getElementById('modal-type').value,
+                                guests: document.getElementById('modal-guests').value,
+                                notes: document.getElementById('modal-notes').value,
+                                payment_method: document.querySelector('input[name="payment_method"]:checked')?.value || 'cash'
+                            };
 
-                    const formData = {
-                        name: document.getElementById('modal-name').value,
-                        phone: document.getElementById('modal-phone').value,
-                        email: document.getElementById('modal-email').value,
-                        checkin: document.getElementById('modal-checkin').value,
-                        checkout: document.getElementById('modal-checkout').value,
-                        accommodation_type: document.getElementById('modal-type').value,
-                        guests: document.getElementById('modal-guests').value,
-                        notes: document.getElementById('modal-notes').value,
-                        payment_method: document.querySelector('input[name="payment_method"]:checked').value
-                    };
+                            if (!formData.name || !formData.phone || !formData.email) {
+                                alert("Te rugăm să completezi numele, telefonul și emailul.");
+                                return;
+                            }
 
-                    // Arătăm utilizatorului că se procesează (opțional, poți schimba textul butonului)
-                    const submitBtn = event.target.querySelector('button[type="submit"]');
-                    const originalText = submitBtn.innerText;
-                    submitBtn.innerText = "Se trimite...";
-                    submitBtn.disabled = true;
+                            btn.innerText = "Se trimite...";
+                            btn.disabled = true;
 
-                    try {
-                        // 1. Trimiterea către Formspree
-                        await fetch("https://formspree.io/f/mnppwrvl", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Accept": "application/json"
-                            },
-                            body: JSON.stringify(formData)
+                            // 1. Formspree
+                            try {
+                                await fetch("https://formspree.io/f/mnppwrvl", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "application/json"
+                                    },
+                                    body: JSON.stringify(formData)
+                                });
+                            } catch (err) {
+                                console.error("Eroare Formspree:", err);
+                            }
+
+                            // 2. EmailJS
+                            try {
+                                if (typeof emailjs !== 'undefined') {
+                                    await emailjs.send("service_txpe8pv", "template_9jdsq3i", formData);
+                                }
+                            } catch (err) {
+                                console.error("Eroare EmailJS:", err);
+                            }
+
+                            alert("Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.");
+
+                            if (typeof closeBookingModal === 'function') {
+                                closeBookingModal();
+                            } else {
+                                document.getElementById('booking-modal').classList.add('hidden');
+                            }
+
+                            document.getElementById('booking-modal-form').reset();
+                            btn.innerText = "Trimite Solicitarea de Rezervare";
+                            btn.disabled = false;
+
+                            location.reload();
                         });
-                    } catch (err) {
-                        console.error("Eroare Formspree:", err);
                     }
-
-                    try {
-                        // 2. Trimiterea prin EmailJS
-                        if (typeof emailjs !== 'undefined') {
-                            await emailjs.send("service_txpe8pv", "template_9jdsq3i", formData);
-                        }
-                    } catch (err) {
-                        console.error("Eroare EmailJS:", err);
-                    }
-
-                    alert("Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.");
-
-                    // Verificăm dacă funcția de închidere există înainte de a o apela, ca să nu blocheze codul
-                    if (typeof closeBookingModal === 'function') {
-                        closeBookingModal();
-                    } else {
-                        document.getElementById('booking-modal').classList.add('hidden');
-                    }
-
-                    document.getElementById('booking-modal-form').reset();
-                    submitBtn.innerText = originalText;
-                    submitBtn.disabled = false;
-
-                    location.reload();
-                }
+                });
             </script>
 
             <!-- JAVASCRIPT LOGIC & RESTRICTIONARE CALENDAR -->
