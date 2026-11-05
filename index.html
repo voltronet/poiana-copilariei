@@ -911,6 +911,51 @@
         </div>
     </div>
 
+    <!-- SCRIPTUL JAVASCRIPT PENTRU TRIMITERE DUALĂ (EmailJS + Formspree) -->
+    <script>
+        async function handleModalSubmit(event) {
+            event.preventDefault();
+
+            // Preluăm datele introduse de client
+            const formData = {
+                name: document.getElementById('modal-name').value,
+                phone: document.getElementById('modal-phone').value,
+                email: document.getElementById('modal-email').value,
+                checkin: document.getElementById('modal-checkin').value,
+                checkout: document.getElementById('modal-checkout').value,
+                accommodation_type: document.getElementById('modal-type').value,
+                guests: document.getElementById('modal-guests').value,
+                notes: document.getElementById('modal-notes').value,
+                payment_method: document.querySelector('input[name="payment_method"]:checked').value
+            };
+
+            try {
+                // 1. Trimiterea prin EmailJS (asigură e-mailul frumos în inbox-ul tău)
+                // Asigură-te că ai funcția ta emailjs.send configurată cu Service ID și Template ID
+                if (typeof emailjs !== 'undefined') {
+                    await emailjs.send("SERVICE_ID_TAU", "TEMPLATE_ID_TAU", formData);
+                }
+
+                // 2. Trimiterea în paralel către Formspree (asigură salvarea în baza de date și Exportul CSV)
+                await fetch("https://formspree.io/f/mnppwrvl", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                alert("Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.");
+                closeBookingModal();
+                document.getElementById('booking-modal-form').reset();
+            } catch (error) {
+                console.error("Eroare la trimiterea rezervării:", error);
+                alert("A apărut o problemă la trimiterea formularului. Vă rugăm încercați din nou.");
+            }
+        }
+    </script>
+
     <!-- JAVASCRIPT LOGIC & RESTRICTIONARE CALENDAR -->
     <script>
         // Meniu Mobil Toggle
