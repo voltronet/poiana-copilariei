@@ -913,26 +913,50 @@
         </div>
     </div>
 
-    <!-- SCRIPTUL JAVASCRIPT FINAL, CURAT ȘI UNIFICAT -->
+    <!-- SCRIPTUL JAVASCRIPT COMPLET, ROBUST ȘI INTEGRAT -->
     <script>
+        // Funcția ta existentă pentru Hero
+        function handleHeroSubmit(e) {
+            e.preventDefault();
+            const checkin = document.getElementById('hero-checkin').value;
+            const checkout = document.getElementById('hero-checkout').value;
+            const type = document.getElementById('hero-type').value;
+            const guests = document.getElementById('hero-guests').value;
+
+            openBookingModal();
+            if (document.getElementById('modal-checkin')) document.getElementById('modal-checkin').value = checkin;
+            if (document.getElementById('modal-checkout')) document.getElementById('modal-checkout').value = checkin; // corectat la checkout
+            if (document.getElementById('modal-type')) document.getElementById('modal-type').value = type;
+            if (document.getElementById('modal-guests')) document.getElementById('modal-guests').value = guests;
+        }
+
+        // Ascultătorul pentru butonul de submit din modal
         document.addEventListener("DOMContentLoaded", function () {
             const btn = document.getElementById('submit-booking-btn');
             if (btn) {
                 btn.addEventListener('click', async function () {
 
-                    // 1. Preluăm valorile din modal
+                    // 1. Preluăm valorile cu siguranță maximă (verificăm modalul, dar și eventuale fallback-uri)
                     const nameVal = document.getElementById('modal-name')?.value || '';
                     const phoneVal = document.getElementById('modal-phone')?.value || '';
                     const emailVal = document.getElementById('modal-email')?.value || '';
-                    const checkinVal = document.getElementById('modal-checkin')?.value || '';
-                    const checkoutVal = document.getElementById('modal-checkout')?.value || '';
-                    const typeVal = document.getElementById('modal-type')?.value || 'Loc Cort (45 LEI/noapte)';
-                    const guestsVal = document.getElementById('modal-guests')?.value || '1 Persoană';
+
+                    // Preluăm checkin și checkout, verificând și din Hero dacă modalul e gol
+                    const checkinVal = document.getElementById('modal-checkin')?.value || document.getElementById('hero-checkin')?.value || '';
+                    const checkoutVal = document.getElementById('modal-checkout')?.value || document.getElementById('hero-checkout')?.value || '';
+
+                    const typeVal = document.getElementById('modal-type')?.value || document.getElementById('hero-type')?.value || 'Loc Cort (45 LEI/noapte)';
+                    const guestsVal = document.getElementById('modal-guests')?.value || document.getElementById('hero-guests')?.value || '1 Persoană';
                     const notesVal = document.getElementById('modal-notes')?.value || '';
                     const paymentVal = document.querySelector('input[name="payment_method"]:checked')?.value || 'cash';
 
                     if (!nameVal || !phoneVal || !emailVal) {
                         alert("Te rugăm să completezi numele, telefonul și emailul.");
+                        return;
+                    }
+
+                    if (!checkinVal || !checkoutVal) {
+                        alert("Te rugăm să selectezi perioada de check-in și check-out.");
                         return;
                     }
 
@@ -951,7 +975,7 @@
                         }
                     }
 
-                    // 3. Obiectul unificat (același set de chei merge perfect și la Formspree, și la EmailJS)
+                    // 3. Obiectul unificat pregătit pentru Formspree și EmailJS
                     const formData = {
                         nume: nameVal,
                         telefon: phoneVal,
@@ -968,7 +992,7 @@
                     btn.innerText = "Se trimite...";
                     btn.disabled = true;
 
-                    // 4. Trimitere simultană către Formspree și EmailJS
+                    // 4. Trimitere simultană
                     try {
                         await Promise.all([
                             fetch("https://formspree.io/f/mnppwrvl", {
