@@ -902,7 +902,32 @@
             if(document.getElementById('modal-type')) document.getElementById('modal-type').value = type;
             if(document.getElementById('modal-guests')) document.getElementById('modal-guests').value = guests;
         }
+        // Trimitere Formular Recenzie (O ADAUGI LÂNGĂ CELELALTE FUNCȚII)
+        function handleReviewSubmit(event) {
+            event.preventDefault();
+            
+            const nameInput = document.getElementById('review-name');
+            const ratingInput = document.getElementById('review-rating');
+            const messageInput = document.getElementById('review-text');
+            
+            if (!nameInput || !messageInput) return;
 
+            const name = nameInput.value;
+            const rating = ratingInput ? ratingInput.value : "5";
+            const message = messageInput.value;
+            
+            const issueBody = `name: ${name}\nrating: ${rating}\nmessage: ${message}`;
+            const issueTitle = "Recenzie noua";
+            
+            const githubUrl = `https://github.com/voltronet/poiana-copilariei/issues/new?title=${encodeURIComponent(issueTitle)}&body=${encodeURIComponent(issueBody)}`;
+            
+            window.open(githubUrl, '_blank');
+            
+            document.getElementById('review-form').reset();
+            if (typeof toggleReviewForm === 'function') {
+                toggleReviewForm();
+            }
+        }
         // Trimitere Formular Modal prin EmailJS
         function handleModalSubmit(e) {
             e.preventDefault();
