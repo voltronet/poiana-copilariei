@@ -1,20 +1,7 @@
-name: Convertește Issue în Recenzie JSON
-
-on:
-  issues:
-    types: [opened, labeled]
-
-jobs:
-  process-review:
-    if: contains(github.event.issue.title, 'Recenzie noua') || contains(github.event.issue.labels.*.name, 'review')
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-      issues: write
-    steps:
-      - name: Checkout cod
+- name: Checkout cod
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false # Previne suprascrierea credentialelor de catre checkout
 
       - name: Setează Node.js
         uses: actions/setup-node@v4
@@ -30,11 +17,10 @@ jobs:
         run: |
           git config --global user.name "GitHub Review Bot"
           git config --global user.email "bot@github.com"
+          
+          # Autentificare directa folosind GITHUB_TOKEN nativ cu drepturi explicite
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          
           git add reviews.json
           git commit -m "Adaugat recenzie din Issue #${{ github.event.issue.number }}"
-          git push
-
-      - name: Închide Issue-ul automat
-        uses: peter-evans/close-issue@v3
-        with:
-          comment: "Recenzia a fost adăugată cu succes în reviews.json și este live pe site!"
+          git push origin HEAD:main
