@@ -8,6 +8,10 @@ jobs:
   process-review:
     if: contains(github.event.issue.title, 'Recenzie noua') || contains(github.event.issue.labels.*.name, 'review')
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
     steps:
       - name: Checkout cod
         uses: actions/checkout@v4
