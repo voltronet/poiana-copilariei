@@ -916,43 +916,51 @@
         async function handleModalSubmit(event) {
             event.preventDefault();
 
-            // Preluăm datele introduse de client
-            const formData = {
-                name: document.getElementById('modal-name').value,
-                phone: document.getElementById('modal-phone').value,
-                email: document.getElementById('modal-email').value,
-                checkin: document.getElementById('modal-checkin').value,
-                checkout: document.getElementById('modal-checkout').value,
-                accommodation_type: document.getElementById('modal-type').value,
-                guests: document.getElementById('modal-guests').value,
-                notes: document.getElementById('modal-notes').value,
-                payment_method: document.querySelector('input[name="payment_method"]:checked').value
-            };
+            // Cream un obiect FormData nativ direct din formularul HTML
+            const formElement = document.getElementById('booking-modal-form');
+            const formData = new FormData(formElement);
+
+            // Adăugăm manual și opțiunea de plată selectată
+            const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
+            if (selectedPayment) {
+                formData.append('payment_method', selectedPayment.value);
+            }
+
+            // Transformăm datele într-un obiect simplu pentru EmailJS
+            const dataObj = Object.fromEntries(formData.entries());
 
             try {
-                // 1. Trimiterea prin EmailJS (asigură e-mailul frumos în inbox-ul tău)
-                // Asigură-te că ai funcția ta emailjs.send configurată cu Service ID și Template ID
-                if (typeof emailjs !== 'undefined') {
-                    await emailjs.send("SERVICE_ID_TAU", "TEMPLATE_ID_TAU", formData);
-                }
-
-                // 2. Trimiterea în paralel către Formspree (asigură salvarea în baza de date și Exportul CSV)
-                await fetch("https://formspree.io/f/mnppwrvl", {
+                // 1. Trimiterea către Formspree (asigură salvarea în baza de date și Exportul CSV)
+                let response = await fetch("https://formspree.io/f/mnppwrvl", {
                     method: "POST",
+                    body: formData,
                     headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify(formData)
+                        'Accept': 'application/json'
+                    }
                 });
 
-                alert("Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.");
-                closeBookingModal();
-                document.getElementById('booking-modal-form').reset();
-            } catch (error) {
-                console.error("Eroare la trimiterea rezervării:", error);
-                alert("A apărut o problemă la trimiterea formularului. Vă rugăm încercați din nou.");
+                if (!response.ok) {
+                    console.error("Eroare de la serverul Formspree:", response.statusText);
+                }
+            } catch (formspreeError) {
+                console.error("Eroare rețea Formspree:", formspreeError);
             }
+
+            try {
+                // 2. Trimiterea prin EmailJS (asigură e-mailul frumos în inbox-ul tău)
+                if (typeof emailjs !== 'undefined') {
+                    await emailjs.send("service_txpe8pv", "template_9jdsq3i", dataObj);
+                }
+            } catch (emailError) {
+                console.error("Eroare EmailJS:", emailError);
+            }
+
+            alert("Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.");
+            closeBookingModal();
+            formElement.reset();
+
+            // Reîmprospătează pagina pentru a actualiza starea
+            location.reload();
         }
     </script>
 
