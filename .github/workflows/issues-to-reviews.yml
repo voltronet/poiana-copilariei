@@ -12,48 +12,15 @@ jobs:
       - name: Checkout cod
         uses: actions/checkout@v4
 
+      - name: Setează Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Procesează textul din Issue
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
-        run: |
-          node -e '
-            const fs = require("fs");
-            const body = process.env.ISSUE_BODY || "";
-            
-            const lines = body.split("\n");
-            let name = "Turist";
-            let rating = 5;
-            let message = body;
-
-            lines.forEach(line => {
-              if (line.toLowerCase().startsWith("name:") || line.toLowerCase().startsWith("nume:")) {
-                name = line.split(":")[1].trim();
-              }
-              if (line.toLowerCase().startsWith("rating:") || line.toLowerCase().startsWith("stele:")) {
-                rating = parseInt(line.split(":")[1].trim()) || 5;
-              }
-              if (line.toLowerCase().startsWith("message:") || line.toLowerCase().startsWith("mesaj:")) {
-                message = line.substring(line.indexOf(":") + 1).trim();
-              }
-            });
-
-            const newReview = {
-              name: name,
-              rating: rating,
-              message: message.replace(/^["\x27]|["\x27]$/g, ""),
-              date: new Date().toISOString().split("T")[0]
-            };
-
-            let reviews = [];
-            if (fs.existsSync("reviews.json")) {
-              try {
-                reviews = JSON.parse(fs.readFileSync("reviews.json", "utf8"));
-              } catch(e) { reviews = []; }
-            }
-
-            reviews.push(newReview);
-            fs.writeFileSync("reviews.json", JSON.stringify(reviews, null, 2));
-          '
+        run: node process-reviews.js
 
       - name: Commit & Push în GitHub Pages
         run: |
