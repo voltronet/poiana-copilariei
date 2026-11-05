@@ -26,8 +26,14 @@ jobs:
 
       - name: Procesează textul din Issue
         env:
-          ISSUE_BODY: ${{ github.event.issue.body || 'name: Test Manual\nrating: 5\nmessage: Test rulat manual din Actions.' }}
-        run: node process-reviews.js
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          if [ -z "$ISSUE_BODY" ]; then
+            export ISSUE_BODY="name: Test Manual
+            rating: 5
+            message: Test rulat manual din Actions."
+          fi
+          node process-reviews.js
 
       - name: Commit & Push în GitHub Pages
         run: |
