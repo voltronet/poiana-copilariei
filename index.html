@@ -913,7 +913,7 @@
         </div>
     </div>
 
-    <!-- SCRIPTUL JAVASCRIPT FINAL ALINIAT CU TEMPLATE-UL EMAILJS -->
+    <!-- SCRIPTUL JAVASCRIPT UNIFICAT ȘI CURAT -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const btn = document.getElementById('submit-booking-btn');
@@ -936,7 +936,7 @@
                         return;
                     }
 
-                    // Calculăm opțional prețul estimat pe baza nopților și a tipului de cazare selectat
+                    // 2. Calculăm prețul estimat
                     let pretEstimat = "Se calculează la confirmare";
                     if (checkinVal && checkoutVal) {
                         const start = new Date(checkinVal);
@@ -951,54 +951,38 @@
                         }
                     }
 
-                    // 2. Construim obiectul exact cu variabilele cerute de șablonul tău EmailJS
+                    // 3. Un singur obiect curat trimis la AMBELE servicii (fără coloane duplicate în Formspree)
                     const formData = {
-                        // Variabile cerute direct de template-ul EmailJS
                         nume: nameVal,
                         telefon: phoneVal,
                         email: emailVal,
                         tip_cazare: typeVal,
-                        data_checkin: checkinVal,
-                        data_checkout: checkoutVal,
-                        pret_estimat: pretEstimat,
-                        numar_persoane: guestsVal,
-                        cereri_speciale: notesVal || 'Fără cereri speciale',
-
-                        // Păstrăm și cheile standard pentru Formspree / CSV log
-                        name: nameVal,
-                        phone: phoneVal,
                         checkin: checkinVal,
                         checkout: checkoutVal,
-                        accommodation_type: typeVal,
-                        guests: guestsVal,
-                        notes: notesVal,
-                        payment_method: paymentVal
+                        numar_persoane: guestsVal,
+                        cereri_speciale: notesVal || 'Fără cereri speciale',
+                        metoda_plata: paymentVal === 'cash' ? 'Plată la Sosire' : 'Card Online (Netopia)',
+                        pret_estimat: pretEstimat
                     };
 
                     btn.innerText = "Se trimite...";
                     btn.disabled = true;
 
-                    // 3. Trimitere Formspree
+                    // 4. Trimitere simultană Formspree & EmailJS
                     try {
-                        await fetch("https://formspree.io/f/mnppwrvl", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Accept": "application/json"
-                            },
-                            body: JSON.stringify(formData)
-                        });
+                        await Promise.all([
+                            fetch("https://formspree.io/f/mnppwrvl", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Accept": "application/json"
+                                },
+                                body: JSON.stringify(formData)
+                            }),
+                            typeof emailjs !== 'undefined' ? emailjs.send("service_txpe8pv", "template_9jdsq3i", formData) : Promise.resolve()
+                        ]);
                     } catch (err) {
-                        console.error("Eroare Formspree:", err);
-                    }
-
-                    // 4. Trimitere EmailJS cu template-ul tău corect mapat
-                    try {
-                        if (typeof emailjs !== 'undefined') {
-                            await emailjs.send("service_txpe8pv", "template_9jdsq3i", formData);
-                        }
-                    } catch (err) {
-                        console.error("Eroare EmailJS:", err);
+                        console.error("Eroare la trimiterea datelor:", err);
                     }
 
                     alert("Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.");
