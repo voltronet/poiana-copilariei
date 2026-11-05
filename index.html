@@ -913,37 +913,47 @@
         </div>
     </div>
 
-    <!-- SCRIPTUL JAVASCRIPT COMPLET, ROBUST ȘI INTEGRAT -->
+    <!-- SCRIPTUL JAVASCRIPT COMPLET ȘI INTEGRAT PENTRU REZERVARE -->
     <script>
-        // Funcția ta existentă pentru Hero
+        // 1. Funcția pentru preluarea datelor din bara Hero și deschiderea modalului
         function handleHeroSubmit(e) {
             e.preventDefault();
-            const checkin = document.getElementById('hero-checkin').value;
-            const checkout = document.getElementById('hero-checkout').value;
-            const type = document.getElementById('hero-type').value;
-            const guests = document.getElementById('hero-guests').value;
+            const checkin = document.getElementById('hero-checkin')?.value || '';
+            const checkout = document.getElementById('hero-checkout')?.value || '';
+            const type = document.getElementById('hero-type')?.value || '';
+            const guests = document.getElementById('hero-guests')?.value || '';
 
-            openBookingModal();
+            if (typeof openBookingModal === 'function') {
+                openBookingModal();
+            } else {
+                const modal = document.getElementById('booking-modal');
+                if (modal) modal.classList.remove('hidden');
+            }
+
             if (document.getElementById('modal-checkin')) document.getElementById('modal-checkin').value = checkin;
-            if (document.getElementById('modal-checkout')) document.getElementById('modal-checkout').value = checkout; // corectat la checkout
+            if (document.getElementById('modal-checkout')) document.getElementById('modal-checkout').value = checkout;
             if (document.getElementById('modal-type')) document.getElementById('modal-type').value = type;
             if (document.getElementById('modal-guests')) document.getElementById('modal-guests').value = guests;
         }
 
-        // Ascultătorul pentru butonul de submit din modal
+        // 2. Ascultătorul pentru trimiterea finală din modal
         document.addEventListener("DOMContentLoaded", function () {
             const btn = document.getElementById('submit-booking-btn');
             if (btn) {
                 btn.addEventListener('click', async function () {
 
-                    // 1. Preluăm valorile cu siguranță maximă (verificăm modalul, dar și eventuale fallback-uri)
+                    // Preluarea sigură a valorilor cu fallback multiplu
                     const nameVal = document.getElementById('modal-name')?.value || '';
                     const phoneVal = document.getElementById('modal-phone')?.value || '';
                     const emailVal = document.getElementById('modal-email')?.value || '';
 
-                    // Preluăm checkin și checkout, verificând și din Hero dacă modalul e gol
-                    const checkinVal = document.getElementById('modal-checkin')?.value || document.getElementById('hero-checkin')?.value || '';
-                    const checkoutVal = document.getElementById('modal-checkout')?.value || document.getElementById('hero-checkout')?.value || '';
+                    const checkinVal = document.getElementById('modal-checkin')?.value ||
+                        document.getElementById('hero-checkin')?.value ||
+                        document.querySelector('input[name*="checkin"]')?.value || '';
+
+                    const checkoutVal = document.getElementById('modal-checkout')?.value ||
+                        document.getElementById('hero-checkout')?.value ||
+                        document.querySelector('input[name*="checkout"]')?.value || '';
 
                     const typeVal = document.getElementById('modal-type')?.value || document.getElementById('hero-type')?.value || 'Loc Cort (45 LEI/noapte)';
                     const guestsVal = document.getElementById('modal-guests')?.value || document.getElementById('hero-guests')?.value || '1 Persoană';
@@ -960,7 +970,7 @@
                         return;
                     }
 
-                    // 2. Calculăm prețul estimat
+                    // Calculul automat al prețului estimat
                     let pretEstimat = "Se calculează la confirmare";
                     if (checkinVal && checkoutVal) {
                         const start = new Date(checkinVal);
@@ -975,7 +985,7 @@
                         }
                     }
 
-                    // 3. Obiectul unificat pregătit pentru Formspree și EmailJS
+                    // Obiectul unificat trimis spre Formspree și EmailJS
                     const formData = {
                         nume: nameVal,
                         telefon: phoneVal,
@@ -992,7 +1002,7 @@
                     btn.innerText = "Se trimite...";
                     btn.disabled = true;
 
-                    // 4. Trimitere simultană
+                    // Trimiterea simultană către ambele servicii
                     try {
                         await Promise.all([
                             fetch("https://formspree.io/f/mnppwrvl", {
@@ -1014,10 +1024,13 @@
                     if (typeof closeBookingModal === 'function') {
                         closeBookingModal();
                     } else {
-                        document.getElementById('booking-modal').classList.add('hidden');
+                        const modal = document.getElementById('booking-modal');
+                        if (modal) modal.classList.add('hidden');
                     }
 
-                    document.getElementById('booking-modal-form').reset();
+                    const form = document.getElementById('booking-modal-form');
+                    if (form) form.reset();
+
                     btn.innerText = "Trimite Solicitarea de Rezervare";
                     btn.disabled = false;
 
