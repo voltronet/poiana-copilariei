@@ -1081,7 +1081,6 @@
         //             alert('A apărut o eroare de rețea. Vă rugăm să ne contactați telefonic la +40 740 286 241.');
         //         });
         // }
-
         // Trimitere Formular Modal prin EmailJS
         function handleModalSubmit(e) {
             e.preventDefault();
@@ -1091,19 +1090,19 @@
 
             const templateParams = {
                 to_name: clientName,
-                to_email: clientEmail, // Asigură-te că în template-ul EmailJS câmpul 'To Email' este setat pe {{to_email}}
-                from_name: "Poiana Copilăriei",
+                to_email: clientEmail,
+                from_name: clientName,
                 phone: document.getElementById('modal-phone').value,
                 email: clientEmail,
                 checkin: document.getElementById('modal-checkin').value,
                 checkout: document.getElementById('modal-checkout').value,
                 accommodation_type: document.getElementById('modal-type').value,
                 guests: document.getElementById('modal-guests').value,
-                notes: document.getElementById('modal-notes').value || "Fără observații"
+                notes: document.getElementById('modal-notes') ? document.getElementById('modal-notes').value : "Fără observații"
             };
 
-            // Apelăm EmailJS cu Public Key
-            emailjs.send('service_txpe8pv', 'template_xaphw8b', templateParams)
+            // Apelăm EmailJS cu ID-ul tău de serviciu și șablonul corect
+            emailjs.send('service_default', 'template_9jdsq3i', templateParams)
                 .then(function (response) {
                     alert('Solicitarea de rezervare a fost trimisă cu succes! Ați primit un email de confirmare.');
                     closeBookingModal();
