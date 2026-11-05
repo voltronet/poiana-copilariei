@@ -3,12 +3,12 @@ name: Convertește Issue în Recenzie JSON
 on:
   issues:
     types: [opened, labeled]
-  workflow_dispatch: # Permite rularea manuală direct din tab-ul Actions
+  workflow_dispatch:
 
 jobs:
   process-review:
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: write
       issues: write
