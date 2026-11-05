@@ -1082,25 +1082,49 @@
         //         });
         // }
         // Trimitere Formular Modal prin EmailJS
+        // Trimitere Formular Modal prin EmailJS cu calcul automat al prețului pe nopți
         function handleModalSubmit(e) {
             e.preventDefault();
 
             const clientEmail = document.getElementById('modal-email').value;
             const clientName = document.getElementById('modal-name').value;
+            const checkinVal = document.getElementById('modal-checkin').value;
+            const checkoutVal = document.getElementById('modal-checkout').value;
+            const accommodationType = document.getElementById('modal-type').value;
+
+            // Calculăm numărul de nopți
+            let totalPret = "Calcul la fața locului";
+            if (checkinVal && checkoutVal) {
+                const start = new Date(checkinVal);
+                const end = new Date(checkoutVal);
+                const diffTime = end - start;
+                const diffNopti = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffNopti > 0) {
+                    // Stabilim prețul în funcție de tipul ales (ajustează denumirile dacă diferă în <select>)
+                    let pretPeNoapte = 45; // implicit cort
+                    if (accommodationType.toLowerCase().includes('rulotă') || accommodationType.toLowerCase().includes('camper')) {
+                        pretPeNoapte = 90;
+                    }
+
+                    const suma = diffNopti * pretPeNoapte;
+                    totalPret = `${suma} LEI (${diffNopti} ${diffNopti === 1 ? 'noapte' : 'nopți'} × ${pretPeNoapte} LEI/noapte)`;
+                }
+            }
 
             const templateParams = {
                 nume: clientName,
                 telefon: document.getElementById('modal-phone').value,
                 email: clientEmail,
-                tip_cazare: document.getElementById('modal-type').value,
-                data_checkin: document.getElementById('modal-checkin').value,
-                data_checkout: document.getElementById('modal-checkout').value,
-                pret_estimat: "Calcul standard la fața locului", // Poți înlocui cu valoarea calculată dacă ai un input de preț
+                tip_cazare: accommodationType,
+                data_checkin: checkinVal,
+                data_checkout: checkoutVal,
+                pret_estimat: totalPret, // Aici se va trimite prețul calculat automat
                 numar_persoane: document.getElementById('modal-guests').value,
                 cereri_speciale: document.getElementById('modal-notes') ? document.getElementById('modal-notes').value : "Fără observații"
             };
 
-            // Trimitem prin EmailJS folosind ID-ul corect de serviciu și șablon
+            // Trimitem prin EmailJS folosind Service ID-ul tău corect
             emailjs.send('service_txpe8pv', 'template_9jdsq3i', templateParams)
                 .then(function (response) {
                     alert('Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.');
@@ -1110,13 +1134,6 @@
                     console.error('Eroare EmailJS:', error);
                     alert('A apărut o eroare la trimitere. Vă rugăm să ne contactați telefonic la +40 740 286 241.');
                 });
-        }
-
-        // Trimitere Formular Contact
-        function handleContactSubmit(e) {
-            e.preventDefault();
-            alert('Mesajul dumneavoastră a fost trimis cu succes! Vă vom contacta în cel mai scurt timp.');
-            e.target.reset();
         }
     </script>
 </body>
