@@ -913,7 +913,7 @@
         </div>
     </div>
 
-    <!-- SCRIPTUL JAVASCRIPT UNIFICAT ȘI CURAT -->
+    <!-- SCRIPTUL JAVASCRIPT FINAL, CURAT ȘI UNIFICAT -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const btn = document.getElementById('submit-booking-btn');
@@ -951,7 +951,7 @@
                         }
                     }
 
-                    // 3. Un singur obiect curat trimis la AMBELE servicii (fără coloane duplicate în Formspree)
+                    // 3. Obiectul unificat (același set de chei merge perfect și la Formspree, și la EmailJS)
                     const formData = {
                         nume: nameVal,
                         telefon: phoneVal,
@@ -968,7 +968,7 @@
                     btn.innerText = "Se trimite...";
                     btn.disabled = true;
 
-                    // 4. Trimitere simultană Formspree & EmailJS
+                    // 4. Trimitere simultană către Formspree și EmailJS
                     try {
                         await Promise.all([
                             fetch("https://formspree.io/f/mnppwrvl", {
