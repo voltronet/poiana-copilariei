@@ -778,7 +778,7 @@
             const container = document.getElementById('reviews-container');
             try {
                 const response = await fetch('reviews.json?t=' + new Date().getTime());
-                if (!response.ok) throw nu Error('Eroare la citirea recenziilor');
+                if (!response.ok) throw new Error('Eroare la citirea recenziilor');
                 const reviews = await response.json();
                 
                 container.innerHTML = ''; // Golim containerul
