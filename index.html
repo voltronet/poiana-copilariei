@@ -927,42 +927,41 @@
             <h3 class="text-2xl font-extrabold text-gray-900 mb-2">Solicită Rezervare</h3>
             <p class="text-xs text-gray-500 mb-6">Completează datele pentru sejurul tău la Poiana Copilăriei.</p>
 
-            <!-- ATENȚIE: Am adăugat acțiunea, metoda POST și target-ul spre iframe-ul ascuns -->
-            <form id="booking-modal-form" action="https://formspree.io/f/mnppwrvl" method="POST" target="hidden-iframe"
-                onsubmit="handleFormSubmit(event)" class="space-y-4">
+            <!-- Formular curat, fără action/target, controlat 100% prin JavaScript -->
+            <form id="booking-modal-form" onsubmit="handleModalSubmit(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Nume și Prenume</label>
-                    <input type="text" id="modal-name" name="name" required
+                    <input type="text" id="modal-name" required
                         class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Telefon</label>
-                        <input type="tel" id="modal-phone" name="phone" required
+                        <input type="tel" id="modal-phone" required
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Email</label>
-                        <input type="email" id="modal-email" name="email" required
+                        <input type="email" id="modal-email" required
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
                     </div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Check-In</label>
-                        <input type="date" id="modal-checkin" name="checkin" required
+                        <input type="date" id="modal-checkin" required
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Check-Out</label>
-                        <input type="date" id="modal-checkout" name="checkout" required
+                        <input type="date" id="modal-checkout" required
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
                     </div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Tip Cazare</label>
-                        <select id="modal-type" name="accommodation_type"
+                        <select id="modal-type"
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
                             <option value="Loc Cort (45 LEI/noapte)">Loc Cort (45 LEI/noapte)</option>
                             <option value="Parcelă Rulotă (90 LEI/noapte)">Parcelă Rulotă (90 LEI/noapte)</option>
@@ -970,7 +969,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Persoane</label>
-                        <select id="modal-guests" name="guests"
+                        <select id="modal-guests"
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3">
                             <option value="1 Persoană">1 Persoană</option>
                             <option value="2 Persoane">2 Persoane</option>
@@ -981,7 +980,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Observații / Cerințe</label>
-                    <textarea id="modal-notes" name="notes" rows="2"
+                    <textarea id="modal-notes" rows="2"
                         class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-3"></textarea>
                 </div>
 
@@ -1016,13 +1015,12 @@
         </div>
     </div>
 
-    <!-- SCRIPTUL JAVASCRIPT PENTRU EMAILJS (în timp ce Formspree preia datele prin iframe) -->
+    <!-- SCRIPTUL JAVASCRIPT DE TRIMITERE SIGURĂ (EmailJS + Formspree în paralel) -->
     <script>
-        function handleFormSubmit(event) {
-            window.submitted = true;
+        async function handleModalSubmit(event) {
+            event.preventDefault();
 
-            // Preluăm datele pentru e-mailul frumos prin EmailJS
-            const dataObj = {
+            const formData = {
                 name: document.getElementById('modal-name').value,
                 phone: document.getElementById('modal-phone').value,
                 email: document.getElementById('modal-email').value,
@@ -1034,15 +1032,33 @@
                 payment_method: document.querySelector('input[name="payment_method"]:checked').value
             };
 
+            // 1. Trimitem spre Formspree ca JSON (exact cum a funcționat anterior)
             try {
-                if (typeof emailjs !== 'undefined') {
-                    emailjs.send("service_txpe8pv", "template_9jdsq3i", dataObj);
-                }
-            } catch (error) {
-                console.error("Eroare EmailJS:", error);
+                await fetch("https://formspree.io/f/mnppwrvl", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                });
+            } catch (err) {
+                console.error("Eroare Formspree:", err);
             }
 
-            // Formularul va continua nativ spre Formspree în iframe-ul ascuns, salvând CSV-ul
+            // 2. Trimitem prin EmailJS
+            try {
+                if (typeof emailjs !== 'undefined') {
+                    await emailjs.send("service_txpe8pv", "template_9jdsq3i", formData);
+                }
+            } catch (err) {
+                console.error("Eroare EmailJS:", err);
+            }
+
+            alert("Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.");
+            closeBookingModal();
+            document.getElementById('booking-modal-form').reset();
+            location.reload();
         }
     </script>
 
