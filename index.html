@@ -913,21 +913,21 @@
         </div>
     </div>
 
-    <!-- SCRIPTUL JAVASCRIPT FINAL PENTRU REZERVARE -->
+    <!-- SCRIPTUL JAVASCRIPT FINAL ALINIAT CU TEMPLATE-UL EMAILJS -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const btn = document.getElementById('submit-booking-btn');
             if (btn) {
                 btn.addEventListener('click', async function () {
 
-                    // Citim valorile direct din ID-urile elementelor din modal
-                    const nameVal = document.getElementById('modal-name')?.value || document.getElementById('name')?.value || '';
-                    const phoneVal = document.getElementById('modal-phone')?.value || document.getElementById('phone')?.value || '';
-                    const emailVal = document.getElementById('modal-email')?.value || document.getElementById('email')?.value || '';
-                    const checkinVal = document.getElementById('modal-checkin')?.value || document.getElementById('checkin')?.value || '';
-                    const checkoutVal = document.getElementById('modal-checkout')?.value || document.getElementById('checkout')?.value || '';
-                    const typeVal = document.getElementById('modal-type')?.value || '';
-                    const guestsVal = document.getElementById('modal-guests')?.value || '';
+                    // 1. Preluăm valorile din modal
+                    const nameVal = document.getElementById('modal-name')?.value || '';
+                    const phoneVal = document.getElementById('modal-phone')?.value || '';
+                    const emailVal = document.getElementById('modal-email')?.value || '';
+                    const checkinVal = document.getElementById('modal-checkin')?.value || '';
+                    const checkoutVal = document.getElementById('modal-checkout')?.value || '';
+                    const typeVal = document.getElementById('modal-type')?.value || 'Loc Cort (45 LEI/noapte)';
+                    const guestsVal = document.getElementById('modal-guests')?.value || '1 Persoană';
                     const notesVal = document.getElementById('modal-notes')?.value || '';
                     const paymentVal = document.querySelector('input[name="payment_method"]:checked')?.value || 'cash';
 
@@ -936,37 +936,49 @@
                         return;
                     }
 
-                    // Trimitem toate variantele posibile de chei, ca să acoperim 100% șablonul din EmailJS
+                    // Calculăm opțional prețul estimat pe baza nopților și a tipului de cazare selectat
+                    let pretEstimat = "Se calculează la confirmare";
+                    if (checkinVal && checkoutVal) {
+                        const start = new Date(checkinVal);
+                        const end = new Date(checkoutVal);
+                        const diffTime = end - start;
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                        if (diffDays > 0) {
+                            let pretPeNoapte = typeVal.includes('Rulotă') ? 90 : 45;
+                            let total = diffDays * pretPeNoapte;
+                            pretEstimat = `${total} LEI (${diffDays} ${diffDays === 1 ? 'noapte' : 'nopți'})`;
+                        }
+                    }
+
+                    // 2. Construim obiectul exact cu variabilele cerute de șablonul tău EmailJS
                     const formData = {
-                        // Pentru Formspree și chei standard
+                        // Variabile cerute direct de template-ul EmailJS
+                        nume: nameVal,
+                        telefon: phoneVal,
+                        email: emailVal,
+                        tip_cazare: typeVal,
+                        data_checkin: checkinVal,
+                        data_checkout: checkoutVal,
+                        pret_estimat: pretEstimat,
+                        numar_persoane: guestsVal,
+                        cereri_speciale: notesVal || 'Fără cereri speciale',
+
+                        // Păstrăm și cheile standard pentru Formspree / CSV log
                         name: nameVal,
                         phone: phoneVal,
-                        email: emailVal,
                         checkin: checkinVal,
                         checkout: checkoutVal,
                         accommodation_type: typeVal,
                         guests: guestsVal,
                         notes: notesVal,
-                        payment_method: paymentVal,
-
-                        // Pentru șablonul EmailJS (toate denumirile posibile)
-                        nume_client: nameVal,
-                        nume: nameVal,
-                        telefon: phoneVal,
-                        email_oaspete: emailVal,
-                        tip_cazare: typeVal,
-                        perioada_sejur: (checkinVal && checkoutVal) ? `${checkinVal} → ${checkoutVal}` : (checkinVal || checkoutVal || 'Nespecificat'),
-                        check_in: checkinVal,
-                        check_out: checkoutVal,
-                        numar_persoane: guestsVal,
-                        cereri_speciale: notesVal || 'Fără cereri speciale',
-                        metoda_plata: paymentVal
+                        payment_method: paymentVal
                     };
 
                     btn.innerText = "Se trimite...";
                     btn.disabled = true;
 
-                    // 1. Formspree
+                    // 3. Trimitere Formspree
                     try {
                         await fetch("https://formspree.io/f/mnppwrvl", {
                             method: "POST",
@@ -980,7 +992,7 @@
                         console.error("Eroare Formspree:", err);
                     }
 
-                    // 2. EmailJS
+                    // 4. Trimitere EmailJS cu template-ul tău corect mapat
                     try {
                         if (typeof emailjs !== 'undefined') {
                             await emailjs.send("service_txpe8pv", "template_9jdsq3i", formData);
