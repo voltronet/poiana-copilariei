@@ -1,38 +1,58 @@
-const fs = require("fs");
-const body = process.env.ISSUE_BODY || "";
+const fs = require('fs');
+const path = require('path');
 
-const lines = body.split("\n");
-let name = "Turist";
-let rating = 5;
-let message = body;
+// Preluăm conținutul din variabila de mediu trimisă de GitHub Actions
+const issueBody = process.env.ISSUE_BODY || '';
+console.log("Conținut Issue primit:\n", issueBody);
 
-lines.forEach(line => {
-    const trimmed = line.trim();
-    if (trimmed.toLowerCase().startsWith("name:") || trimmed.toLowerCase().startsWith("nume:")) {
-        name = trimmed.split(":")[1].trim();
+// Funcție pentru extragerea datelor din corpul Issue-ului
+function parseIssueBody(body) {
+    const lines = body.split('\n');
+    let name = 'Oaspete';
+    let rating = 5;
+    let message = '';
+
+    lines.forEach(line => {
+        const lower = line.toLowerCase();
+        if (lower.startsWith('name:') || lower.startsWith('nume:')) {
+            name = line.split(/:(.+)/)[1].trim();
+        } else if (lower.startsWith('rating:')) {
+            rating = parseInt(line.split(/:(.+)/)[1].trim(), 10) || 5;
+        } else if (lower.startsWith('message:') || lower.startsWith('mesaj:')) {
+            message = line.split(/:(.+)/)[1].trim();
+        }
+    });
+
+    // Dacă formatul nu conține chei stricte, preluăm tot textul ca mesaj
+    if (!message && body.trim()) {
+        message = body.trim();
     }
-    if (trimmed.toLowerCase().startsWith("rating:") || trimmed.toLowerCase().startsWith("stele:")) {
-        rating = parseInt(trimmed.split(":")[1].trim()) || 5;
-    }
-    if (trimmed.toLowerCase().startsWith("message:") || trimmed.toLowerCase().startsWith("mesaj:")) {
-        message = trimmed.substring(trimmed.indexOf(":") + 1).trim();
-    }
-});
 
-const newReview = {
-    name: name,
-    rating: rating,
-    message: message.replace(/^["\x27]|["\x27]$/g, ""),
-    date: new Date().toISOString().split("T")[0]
-};
-
-let reviews = [];
-if (fs.existsSync("reviews.json")) {
-    try {
-        reviews = JSON.parse(fs.readFileSync("reviews.json", "utf8"));
-    } catch(e) { reviews = []; }
+    return {
+        name: name || 'Oaspete',
+        rating: isNaN(rating) ? 5 : rating,
+        message: message || 'Fără mesaj',
+        date: new Date().toISOString().split('T')[0] // Data curentă (YYYY-MM-DD)
+    };
 }
 
-reviews.push(newReview);
-fs.writeFileSync("reviews.json", JSON.stringify(reviews, null, 2));
-console.log("Recenzia a fost adaugata cu succes:", newReview);
+const newReview = parseIssueBody(issueBody);
+const filePath = path.join(__dirname, 'reviews.json');
+let reviews = [];
+
+// Citim recenziile existente, dacă fișierul există
+if (fs.existsSync(filePath)) {
+    try {
+        const fileData = fs.readFileSync(filePath, 'utf8');
+        reviews = JSON.parse(fileData);
+    } catch (e) {
+        console.error("Eroare la citirea reviews.json:", e);
+    }
+}
+
+// Adăugăm recenzia nouă la începutul listei
+reviews.unshift(newReview);
+
+// Salvăm fișierul JSON actualizat
+fs.writeFileSync(filePath, JSON.stringify(reviews, null, 2), 'utf8');
+console.log("Recenzia a fost adăugată cu succes în reviews.json:", newReview);
