@@ -1042,15 +1042,59 @@
             if (document.getElementById('modal-guests')) document.getElementById('modal-guests').value = guests;
         }
 
-        // Trimitere Formular Modal prin Formspree
+        // // Trimitere Formular Modal prin Formspree
+        // function handleModalSubmit(e) {
+        //     e.preventDefault();
+
+        //     // Preluăm toate datele din formular
+        //     const formData = {
+        //         name: document.getElementById('modal-name').value,
+        //         phone: document.getElementById('modal-phone').value,
+        //         email: document.getElementById('modal-email').value,
+        //         checkin: document.getElementById('modal-checkin').value,
+        //         checkout: document.getElementById('modal-checkout').value,
+        //         accommodation_type: document.getElementById('modal-type').value,
+        //         guests: document.getElementById('modal-guests').value,
+        //         notes: document.getElementById('modal-notes').value || "Fără observații"
+        //     };
+
+        //     // Trimitem datele prin Formspree
+        //     fetch('https://formspree.io/f/mnppwrvl', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Accept': 'application/json'
+        //         },
+        //         body: JSON.stringify(formData)
+        //     })
+        //         .then(response => {
+        //             if (response.ok) {
+        //                 alert('Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.');
+        //                 closeBookingModal();
+        //                 document.getElementById('booking-modal-form').reset();
+        //             } else {
+        //                 alert('A apărut o eroare la trimitere. Vă rugăm să ne contactați telefonic la +40 740 286 241.');
+        //             }
+        //         })
+        //         .catch(error => {
+        //             console.error('Eroare:', error);
+        //             alert('A apărut o eroare de rețea. Vă rugăm să ne contactați telefonic la +40 740 286 241.');
+        //         });
+        // }
+
+        // Trimitere Formular Modal prin EmailJS
         function handleModalSubmit(e) {
             e.preventDefault();
 
-            // Preluăm toate datele din formular
-            const formData = {
-                name: document.getElementById('modal-name').value,
+            const clientEmail = document.getElementById('modal-email').value;
+            const clientName = document.getElementById('modal-name').value;
+
+            const templateParams = {
+                to_name: clientName,
+                to_email: clientEmail, // Asigură-te că în template-ul EmailJS câmpul 'To Email' este setat pe {{to_email}}
+                from_name: "Poiana Copilăriei",
                 phone: document.getElementById('modal-phone').value,
-                email: document.getElementById('modal-email').value,
+                email: clientEmail,
                 checkin: document.getElementById('modal-checkin').value,
                 checkout: document.getElementById('modal-checkout').value,
                 accommodation_type: document.getElementById('modal-type').value,
@@ -1058,27 +1102,15 @@
                 notes: document.getElementById('modal-notes').value || "Fără observații"
             };
 
-            // Trimitem datele prin Formspree
-            fetch('https://formspree.io/f/mnppwrvl', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.');
-                        closeBookingModal();
-                        document.getElementById('booking-modal-form').reset();
-                    } else {
-                        alert('A apărut o eroare la trimitere. Vă rugăm să ne contactați telefonic la +40 740 286 241.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Eroare:', error);
-                    alert('A apărut o eroare de rețea. Vă rugăm să ne contactați telefonic la +40 740 286 241.');
+            // Apelăm EmailJS cu Public Key
+            emailjs.send('service_default', 'template_default', templateParams)
+                .then(function (response) {
+                    alert('Solicitarea de rezervare a fost trimisă cu succes! Ați primit un email de confirmare.');
+                    closeBookingModal();
+                    document.getElementById('booking-modal-form').reset();
+                }, function (error) {
+                    console.error('Eroare EmailJS:', error);
+                    alert('A apărut o eroare la trimitere. Vă rugăm să ne contactați telefonic la +40 740 286 241.');
                 });
         }
 
