@@ -1015,7 +1015,7 @@
         </div>
     </div>
 
-    <!-- SCRIPTUL JAVASCRIPT DE TRIMITERE SIGURĂ (EmailJS + Formspree în paralel) -->
+    <!-- SCRIPTUL JAVASCRIPT ROBUST PENTRU REZERVARE -->
     <script>
         async function handleModalSubmit(event) {
             event.preventDefault();
@@ -1032,8 +1032,14 @@
                 payment_method: document.querySelector('input[name="payment_method"]:checked').value
             };
 
-            // 1. Trimitem spre Formspree ca JSON (exact cum a funcționat anterior)
+            // Arătăm utilizatorului că se procesează (opțional, poți schimba textul butonului)
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = "Se trimite...";
+            submitBtn.disabled = true;
+
             try {
+                // 1. Trimiterea către Formspree
                 await fetch("https://formspree.io/f/mnppwrvl", {
                     method: "POST",
                     headers: {
@@ -1046,8 +1052,8 @@
                 console.error("Eroare Formspree:", err);
             }
 
-            // 2. Trimitem prin EmailJS
             try {
+                // 2. Trimiterea prin EmailJS
                 if (typeof emailjs !== 'undefined') {
                     await emailjs.send("service_txpe8pv", "template_9jdsq3i", formData);
                 }
@@ -1056,8 +1062,18 @@
             }
 
             alert("Solicitarea de rezervare a fost trimisă cu succes! Vă mulțumim.");
-            closeBookingModal();
+
+            // Verificăm dacă funcția de închidere există înainte de a o apela, ca să nu blocheze codul
+            if (typeof closeBookingModal === 'function') {
+                closeBookingModal();
+            } else {
+                document.getElementById('booking-modal').classList.add('hidden');
+            }
+
             document.getElementById('booking-modal-form').reset();
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+
             location.reload();
         }
     </script>
