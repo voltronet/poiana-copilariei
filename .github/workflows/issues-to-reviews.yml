@@ -6,7 +6,6 @@ on:
 
 jobs:
   process-review:
-    # Rulează dacă issue-ul are titlul formatat sau eticheta 'review'
     if: contains(github.event.issue.title, 'Recenzie noua') || contains(github.event.issue.labels.*.name, 'review')
     runs-on: ubuntu-latest
     steps:
@@ -21,15 +20,27 @@ jobs:
             const fs = require("fs");
             const body = process.env.ISSUE_BODY || "";
             
-            // Extragere simplă din corpul Issue-ului
-            const nameMatch = body.match(/name[:\s]+([^\n\r]+)/i) || body.match(/nume[:\s]+([^\n\r]+)/i);
-            const ratingMatch = body.match(/rating[:\s]+(\d+)/i) || body.match(/stele[:\s]+(\d+)/i);
-            const messageMatch = body.match(/message[:\s]+([\s\S]+)/i) || body.match(/mesaj[:\s]+([\s\S]+)/i);
+            const lines = body.split("\n");
+            let name = "Turist";
+            let rating = 5;
+            let message = body;
+
+            lines.forEach(line => {
+              if (line.toLowerCase().startsWith("name:") || line.toLowerCase().startsWith("nume:")) {
+                name = line.split(":")[1].trim();
+              }
+              if (line.toLowerCase().startsWith("rating:") || line.toLowerCase().startsWith("stele:")) {
+                rating = parseInt(line.split(":")[1].trim()) || 5;
+              }
+              if (line.toLowerCase().startsWith("message:") || line.toLowerCase().startsWith("mesaj:")) {
+                message = line.substring(line.indexOf(":") + 1).trim();
+              }
+            });
 
             const newReview = {
-              name: nameMatch ? nameMatch[1].trim() : "Turist",
-              rating: ratingMatch ? parseInt(ratingMatch[1]) : 5,
-              message: messageMatch ? messageMatch[1].trim().replace(/^["']|["']$/g, "") : body,
+              name: name,
+              rating: rating,
+              message: message.replace(/^["\x27]|["\x27]$/g, ""),
               date: new Date().toISOString().split("T")[0]
             };
 
