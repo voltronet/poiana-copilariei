@@ -919,27 +919,51 @@
             const btn = document.getElementById('submit-booking-btn');
             if (btn) {
                 btn.addEventListener('click', async function () {
-                    const formData = {
-                        name: document.getElementById('modal-name').value,
-                        phone: document.getElementById('modal-phone').value,
-                        email: document.getElementById('modal-email').value,
-                        checkin: document.getElementById('modal-checkin').value,
-                        checkout: document.getElementById('modal-checkout').value,
-                        accommodation_type: document.getElementById('modal-type').value,
-                        guests: document.getElementById('modal-guests').value,
-                        notes: document.getElementById('modal-notes').value,
-                        payment_method: document.querySelector('input[name="payment_method"]:checked')?.value || 'cash'
-                    };
 
-                    if (!formData.name || !formData.phone || !formData.email) {
+                    // Preluăm valorile din câmpuri
+                    const nameVal = document.getElementById('modal-name').value;
+                    const phoneVal = document.getElementById('modal-phone').value;
+                    const emailVal = document.getElementById('modal-email').value;
+                    const checkinVal = document.getElementById('modal-checkin').value;
+                    const checkoutVal = document.getElementById('modal-checkout').value;
+                    const typeVal = document.getElementById('modal-type').value;
+                    const guestsVal = document.getElementById('modal-guests').value;
+                    const notesVal = document.getElementById('modal-notes').value;
+                    const paymentVal = document.querySelector('input[name="payment_method"]:checked')?.value || 'cash';
+
+                    if (!nameVal || !phoneVal || !emailVal) {
                         alert("Te rugăm să completezi numele, telefonul și emailul.");
                         return;
                     }
 
+                    // Construim obiectul cu TOATE variantele de chei (atât pentru Formspree, cât și pentru șablonul tău EmailJS în română)
+                    const formData = {
+                        // Chei standard (pentru Formspree / CSV)
+                        name: nameVal,
+                        phone: phoneVal,
+                        email: emailVal,
+                        checkin: checkinVal,
+                        checkout: checkoutVal,
+                        accommodation_type: typeVal,
+                        guests: guestsVal,
+                        notes: notesVal,
+                        payment_method: paymentVal,
+
+                        // Chei specifice șablonului tău EmailJS (văzute în imagine)
+                        nume_client: nameVal,
+                        telefon: phoneVal,
+                        email_oaspete: emailVal,
+                        tip_cazare: typeVal,
+                        perioada_sejur: `${checkinVal} → ${checkoutVal}`,
+                        numar_persoane: guestsVal,
+                        cereri_speciale: notesVal || 'Fără cereri speciale',
+                        metoda_plata: paymentVal
+                    };
+
                     btn.innerText = "Se trimite...";
                     btn.disabled = true;
 
-                    // 1. Formspree
+                    // 1. Trimitere Formspree
                     try {
                         await fetch("https://formspree.io/f/mnppwrvl", {
                             method: "POST",
@@ -953,7 +977,7 @@
                         console.error("Eroare Formspree:", err);
                     }
 
-                    // 2. EmailJS
+                    // 2. Trimitere EmailJS (folosind exact aceleași ID-uri stabilite)
                     try {
                         if (typeof emailjs !== 'undefined') {
                             await emailjs.send("service_txpe8pv", "template_9jdsq3i", formData);
